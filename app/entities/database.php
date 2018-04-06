@@ -13,6 +13,11 @@
          * @ORM\generatedValue
          */
         protected $id;
+
+        /**
+         * @ORM\column(type="string")
+         */
+        private $name;
         
         /**
          * @ORM\column(type="time", options={"default" : "00:00:00"})
@@ -68,6 +73,7 @@
         private $outside;
 
         public function getId() { return $this->id; }
+        public function getName() { return $this->name; }
         public function getOpenTime() { return $this->opentime; }
         public function getCloseTime() { return $this->closetime; }
         public function getAdmission() { return $this->admission; }
@@ -81,6 +87,7 @@
         public function getOutside() { return $this->outside; }
         public function getInside() { return !$this->outside; }
 
+        public function setName($v) { $this->name = $v; }
         public function setOpenTime($v) { $this->opentime = $v; }
         public function setCloseTime($v) { $this->closetime = $v; }
         public function setAdmission($v) { $this->admission = $v; }
