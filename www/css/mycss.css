@@ -58,7 +58,6 @@ a, a:hover, a:focus {
     align-items: stretch;
     perspective: 1500px;
     height: calc(100vh - 70px);
-    float: left;
 }
 
 #sidebar {
@@ -71,7 +70,7 @@ a, a:hover, a:focus {
 }
 
 #sidebar.active {
-    margin-left: -250px;
+    margin-left: -350px;
     transform: rotateY(100deg);
 }
 
@@ -156,6 +155,10 @@ a.article, a.article:hover {
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
+.buttonek {
+    cursor: pointer;
+}
+
 #content {
     padding: 20px;
     transition: all 0.3s;
