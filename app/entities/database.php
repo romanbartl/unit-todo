@@ -78,4 +78,28 @@
         public function getX() { return $this->x; }
         public function getY() { return $this->y; }
     }
+
+    /** @ORM\entity */
+    class Favourite extends \Kdyby\Doctrine\Entities\BaseEntity {
+        /**
+         * @ORM\id @ORM\column(type="integer")
+         * @ORM\generatedValue
+         */
+        private $id;
+
+        private $user;
+    }
+
+    /** @ORM\entity */
+    class User extends \Kdyby\Doctrine\Entities\BaseEntity {
+        /**
+         * @ORM\column(type="string")
+         */
+        private $mail;
+
+        private $name;
+        private $surname;
+
+        public function getMail() { return $this->mail; }
+    }
 ?>
