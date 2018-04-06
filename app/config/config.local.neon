@@ -1,6 +1,6 @@
 parameters:
 
 doctrine:
-    user: adsd
-    password: dsadsa
-    dbname: dsa
+    user: unit
+    password: unitbrno
+    dbname: unit
