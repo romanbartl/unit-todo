@@ -4,6 +4,7 @@ temp/*
 !.gitignore
 !.htaccess
 !web.config
+vendor/*
 
 # User-specific stuff
 .idea/*
