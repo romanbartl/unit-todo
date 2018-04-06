@@ -21,7 +21,7 @@
 		"latte/latte": "^2.4",
 		"tracy/tracy": "^2.4",
 		"kdyby/doctrine": "^3.1",
-		"kdyby/facebook": "^2.1"
+		"contributte/facebook": "^0.2.0"
 	},
 	"require-dev": {
 		"nette/tester": "^1.6"
