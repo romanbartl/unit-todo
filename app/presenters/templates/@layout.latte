@@ -33,11 +33,11 @@
     </div>
 </nav>
 
+{include content}
+
 <!-- Sidebar -->
 <div class="wrapper">
-
     <nav id="sidebar">
-        {include content}
     </nav>
 </div>
 
@@ -53,22 +53,32 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+<script src="{$basePath}/js/nette.ajax.js"></script>
 <script>
     $(function () {
         $.nette.init();
     });
 </script>
+<script>
+    function fbAfterLogin() {
+        alert("fb login");
 
-<script src="{$basePath}/js/facebook.js"></script>
+        $.nette.ajax({
+            url: {link FacebookCookie!}
+        });
+    }
+</script>
+
 <script src="//connect.facebook.net/en_US/all.js"></script>
 <script>
     FB.init({
         appId  : '356707758145198',
-        status : true, // check login status
-        cookie : true, // enable cookies to allow the server to access the session
-        xfbml  : true, // parse XFBML
-        channelUrl : 'https://unitbrno.psopf.cz/', // channel.html file
-        oauth  : true // enable OAuth 2.0
+        status : true,
+        cookie : true,
+        xfbml  : true,
+        channelUrl : 'https://unitbrno.psopf.cz/',
+        oauth  : true
     });
 </script>
 
