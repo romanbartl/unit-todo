@@ -6,8 +6,9 @@ use Nette\Security as NS,
     Nette,
     Kdyby\Doctrine;
 
-class Auth extends Nette\Object implements NS\IAuthenticator
+class Auth implements NS\IAuthenticator
 {
+    use Nette\SmartObject;
     /**
      * @inject
      * @var \Kdyby\Doctrine\EntityManager
