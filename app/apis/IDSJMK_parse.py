@@ -135,8 +135,8 @@ for route in parser.lld:
 
 for n in lld:
     for d in n:
-                                                   # MHD id # init ID    # name          # start          # starttime         # end          # endtime
-        insertion = "INSERT INTO Route VALUES ("+str(1)+","+str(1)+",'"+d['name']+"','"+d['start']+"','"+d['starttime']+"','"+d['end']+"','"+d['endtime']+"');"
+                                                                                                                             # MHD id # init ID    # name          # start          # starttime         # end          # endtime
+        insertion = "INSERT INTO `route` (`type_id`, `initial_id`, `name`, `start`, `starttime`, `end`, `endtime`) VALUES ("+str(1)+","+str(1)+",'"+d['name']+"','"+d['start']+"','"+d['starttime']+"','"+d['end']+"','"+d['endtime']+"');"
         print(insertion)
         #cursor.execute(insertion)
         #print(insertion, end="\n")

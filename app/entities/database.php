@@ -34,79 +34,65 @@
         private $capacity;
 
         /**
+         * @ORM\column(type="decimal", nullable=true, options={"default" : 0})
+         */
+        private $lati;
+        /**
+         * @ORM\column(type="decimal", nullable=true, options={"default" : 0})
+         */
+        private $longi;
+
+        /**
+         * @ORM\column(type="boolean", options={"default" : False})
+         */
+        private $event;
+
+        /**
          * @ORM\ManyToMany(targetEntity="Tag")
          */
         private $tags;
+
+        /**
+         * @ORM\column(type="string", nullable=NULL, options={"default" : "casual"})
+         */
+        private $dresscode;
+
+        /**
+         * @ORM\ManyToOne(targetEntity="Item", inversedBy="events")
+         */
+        private $location;
+
+        /**
+         * @ORM\column(type="boolean", nullable=NULL, options={"default" : false})
+         */
+        private $outside;
 
         public function getId() { return $this->id; }
         public function getOpenTime() { return $this->opentime; }
         public function getCloseTime() { return $this->closetime; }
         public function getAdmission() { return $this->admission; }
         public function getCapacity() { return $this->capacity; }
-        public function isEvent() { return false; }
-        public function isPlace() { return false; }
-        
+        public function isEvent() { return $this->event; }
+        public function isPlace() { return ! $this->event; }
+        public function getDresscode() { return $this->dresscode; }
+        public function getLocation() { return $this->location; }
+        public function getLongi() { return $this->longi; }
+        public function getLati() { return $this->lati; }
+        public function getOutside() { return $this->outside; }
+        public function getInside() { return !$this->outside; }
+
         public function setOpenTime($v) { $this->opentime = $v; }
         public function setCloseTime($v) { $this->closetime = $v; }
         public function setAdmission($v) { $this->admission = $v; }
         public function setCapacity($v) { $this->capacity = $v; }
-
-        // addTag
-    }
-
-    /** @ORM\entity */
-    class Event extends Item
-    {
-        /**
-         * @ORM\column(type="string", options={"default" : "casual"})
-         */
-        private $dresscode;
-
-        /**
-         * @ORM\ManyToOne(targetEntity="Place", inversedBy="events")
-         */
-        private $location;
-        
-        public function getDresscode() { return $this->dresscode; }
-        public function getLocation() { return $this->location; }
-
         public function setDresscode($v) { $this->dresscode = $v; }
         public function setLocation($v) { $this->location = $v; }
-    }
-
-    /** @ORM\entity */
-    class Place extends Item
-    {
-        /**
-         * @ORM\column(type="decimal", options={"default" : 0})
-         */
-        private $x;
-        /**
-         * @ORM\column(type="decimal", options={"default" : 0})
-         */
-        private $y;
-
-        /**
-         * @ORM\column(type="boolean", options={"default" : false})
-         */
-        private $outside;
-
-        /**
-         * @ORM\OneToMany(targetEntity="Event", mappedBy="location", cascade={"ALL"}, indexBy="id")
-         */
-        private $events;
-
-        public function getX() { return $this->x; }
-        public function getY() { return $this->y; }
-        public function getOutside() { return $this->outside; }
-        public function getInside() { return !$this->outside; }
-
-        public function setX($v) { $this->x = $v; }
-        public function setY($v) { $this->y = $v; }
+        public function setLati($v) { $this->lati = $v; }
+        public function setLongi($v) { $this->longi = $v; }
         public function setOutside($v = true) { $this->outside = $v; }
         public function setInside($v = true) { $this->outside = !$v; }
 
-        // addEvent
+        // addTag
     }
 
     /** @ORM\entity */
