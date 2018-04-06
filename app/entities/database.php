@@ -68,7 +68,7 @@ class Item {
     private $dresscode;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Item", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="Item")
      */
     private $location;
 
