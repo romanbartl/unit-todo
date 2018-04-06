@@ -1,8 +1,10 @@
 <?php
+
 namespace App;
 
 use Nette\Security as NS,
-    App\User;
+    Nette,
+    Kdyby\Doctrine;
 
 class Auth extends Nette\Object implements NS\IAuthenticator
 {
@@ -12,7 +14,7 @@ class Auth extends Nette\Object implements NS\IAuthenticator
      */
     public $EntityManager;
 
-    function __construct(Kdyby\Doctrine\EntityManager $EntityManager)
+    function __construct(Doctrine\EntityManager $EntityManager)
     {
         $this->EntityManager = $EntityManager;
     }
@@ -36,8 +38,12 @@ class Auth extends Nette\Object implements NS\IAuthenticator
             $user->password = NS\Passwords::hash($user->password);
         }
 
-        $this->EntityManager->merge($user);
-        $this->EntityManager->flush();
+        try {
+            $this->EntityManager->merge($user);
+            $this->EntityManager->flush();
+        } catch (\Exception $e) {
+            throw new NS\AuthenticationException('Chyba databáze!');
+        }
 
         return new NS\Identity($user->id, 'user', array('username' => $user->username));
     }
