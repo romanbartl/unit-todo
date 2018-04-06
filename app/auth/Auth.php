@@ -22,21 +22,17 @@ class Auth implements NS\IAuthenticator
 
     function authenticate(array $credentials)
     {
-        list($username, $password) = $credentials;
-        $user = $this->EntityManager->getRepository(User::class)->findOneBy(array('username' => $username));
+        list($email, $password) = $credentials;
+        $user = $this->EntityManager->getRepository(User::class)->findOneBy(array('email' => $email));
 
         if (is_null($user)) {
             throw new NS\AuthenticationException('Uživatel nebyl nalezen!');
         }
 
         if ($password) {
-            if (!NS\Passwords::verify($password, $user->password)) {
+            if (!NS\Passwords::verify($password, $user->getPassword())) {
                 throw new NS\AuthenticationException('Špatně zadané heslo!');
             }
-        }
-
-        if (NS\Passwords::needsRehash($user->password)) {
-            $user->password = NS\Passwords::hash($user->password);
         }
 
         try {
@@ -46,6 +42,6 @@ class Auth implements NS\IAuthenticator
             throw new NS\AuthenticationException('Chyba databáze!');
         }
 
-        return new NS\Identity($user->id, 'user', array('username' => $user->username));
+        return new NS\Identity($user->getId(), 'user', array('email' => $user->getEmail()));
     }
 }
