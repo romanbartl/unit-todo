@@ -8,9 +8,6 @@ temp/*
 # User-specific stuff
 .idea/*
 
-# Mongo Explorer plugin
-.idea/**/mongoSettings.xml
-
 # File-based project format
 *.iws
 
