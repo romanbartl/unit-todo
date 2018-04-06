@@ -1,8 +1,6 @@
 <?php
 
-    include 'database.php';
-
-    namespace Viewbase;
+    namespace App;
 
     use Doctrine\ORM\Mapping as ORM;
 
@@ -14,15 +12,15 @@
          * @ORM\column(type="integer")
          * @ORM\generatedValue
          */
-        private $id;
+        protected $id;
 
         /**
-         * @OneToOne(targetEntity="Point")
+         * @ORM\OneToOne(targetEntity="Point")
          */
         private $follower;
     
         /**
-         * @manyToOne(targetEntity="Database\Item")
+         * @ORM\ManyToOne(targetEntity="Item")
          */
         private $item;
 
@@ -32,7 +30,6 @@
         private $routes;
 
         /**
-         * @ORM\Id
          * @ORM\ManyToOne(targetEntity="Plan", inversedBy="begin")
          */
         private $plan;
@@ -59,7 +56,7 @@
          * @ORM\column(type="integer")
          * @ORM\generatedValue
          */
-        private $id;
+        protected $id;
 
         /**
          * @ORM\column(type="string")
@@ -71,7 +68,6 @@
         private $type;
 
         /**
-         * @ORM\Id
          * @ORM\ManyToOne(targetEntity="Point", inversedBy="routes")
          */
         private $initial;
@@ -121,15 +117,15 @@
          * @ORM\column(type="integer")
          * @ORM\generatedValue
          */
-        private $id;
+        protected $id;
 
         /**
-         * @OneToOne(targetEntity="Point", mappedBy="plan")
+         * @ORM\OneToOne(targetEntity="Point", mappedBy="plan")
          */
         private $begin;
 
         /**
-         * @manyToOne(targetEntity="TravelType")
+         * @ORM\ManyToOne(targetEntity="TravelType")
          */
         private $preferred;
 
@@ -150,7 +146,7 @@
          * @ORM\column(type="integer")
          * @ORM\generatedValue
          */
-        private $id;
+        protected $id;
         
         /**
          * @ORM\column(type="string")

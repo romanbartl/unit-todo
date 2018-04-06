@@ -1,6 +1,6 @@
 <?php
 
-    namespace Database;
+    namespace App;
 
     use Doctrine\ORM\Mapping as ORM;
 
@@ -12,14 +12,14 @@
          * @ORM\column(type="integer")
          * @ORM\generatedValue
          */
-        private $id;
+        protected $id;
         
         /**
-         * @ORM\column(type="time", options={"default" : '00:00:00'})
+         * @ORM\column(type="time", options={"default" : "00:00:00"})
          */
         private $opentime;
         /**
-         * @ORM\column(type="time", options={"default" : '24:00:00'})
+         * @ORM\column(type="time", options={"default" : "24:00:00"})
          */
         private $closetime;
         
@@ -34,7 +34,7 @@
         private $capacity;
 
         /**
-         * @manyToMany(targetEntity="Tag")
+         * @ORM\ManyToMany(targetEntity="Tag")
          */
         private $tags;
 
@@ -58,12 +58,11 @@
     class Event extends Item
     {
         /**
-         * @ORM\column(type="string", options={"default" : 'casual'})
+         * @ORM\column(type="string", options={"default" : "casual"})
          */
         private $dresscode;
 
         /**
-         * @ORM\Id
          * @ORM\ManyToOne(targetEntity="Place", inversedBy="events")
          */
         private $location;
@@ -118,7 +117,7 @@
          * @ORM\column(type="integer")
          * @ORM\generatedValue
          */
-        private $id;
+        protected $id;
 
         /**
          * @ORM\column(type="string")
@@ -126,7 +125,7 @@
         private $name;
 
         /**
-         * @manyToMany(targetEntity="Item", mappedBy="tags")
+         * @ORM\ManyToMany(targetEntity="Item", mappedBy="tags")
          */
         private $tagged;
 
