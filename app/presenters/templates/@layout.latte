@@ -15,20 +15,57 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css"
           integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
 
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{$basePath}/css/mycss.css">
+
 </head>
 <body>
 <!-- Header -->
 <nav class="navbar sticky-top navbar-dark bg-dark">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">WebSiteName</a>
+            <a class="navbar-brand" href="#">TODO</a>
         </div>
         <div class="form-inline navbar-right">
-            <a n:href="Homepage:"><span class="glyphicon glyphicon-user"></span><i class="fas fa-home" style="font-size:40px;"></i></a>
-            <a n:href="Homepage:"><span class="circle-user"></span><i class="fas fa-user-circle" style="font-size:40px;"></i></a>
+            <a n:href="Homepage:"><span class="glyphicon glyphicon-user"></span><i class="fas fa-home my-margin-right-long" style="font-size:40px;"></i></a>
+            <a n:href="Homepage:"><span class="circle-user"></span><i class="fas fa-user-circle my-margin-right" style="font-size:40px;"></i></a>
         </div>
     </div>
 </nav>
+
+<!-- Sidebar -->
+<div class="wrapper">
+
+    <nav id="sidebar">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header">
+            <h3>Collapsible Sidebar</div>
+</div>
+
+<!-- Sidebar Links -->
+<ul class="list-unstyled components">
+    <li class="active"><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><!-- Link with dropdown items -->
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
+        <ul class="collapse list-unstyled" id="homeSubmenu">
+            <li><a href="#">Page</a></li>
+            <li><a href="#">Page</a></li>
+            <li><a href="#">Page</a></li>
+        </ul>
+    <li><a href="#">Portfolio</a></li>
+    <li><a href="#">Contact</a></li>
+</ul>
+</nav>
+
+<div id="content">
+    <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+        <i class="glyphicon glyphicon-align-left"></i>
+        Toggle Sidebar
+    </button>
+    <div>
+
+    </div>
 
 {include content}
 
@@ -48,6 +85,7 @@
     });
 </script>
 
+<script src="{$basePath}/js/facebook.js"></script>
 <script src="//connect.facebook.net/en_US/all.js"></script>
 <script>
     FB.init({
