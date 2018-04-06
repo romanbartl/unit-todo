@@ -1,7 +1,7 @@
 <?php
 namespace App\Presenters;
 
-class HomepagePresenter extends BasePresenter
+class LoginPresenter extends BasePresenter
 {
     public function renderDefault()
     {
