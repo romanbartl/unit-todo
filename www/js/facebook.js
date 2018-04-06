@@ -1,4 +1,0 @@
-
-function fbAfterLogin() {
-    alert("ahoj");
-}

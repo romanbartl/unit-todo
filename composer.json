@@ -22,7 +22,12 @@
 		"tracy/tracy": "^2.4",
 		"kdyby/doctrine": "^3.1",
 		"contributte/facebook": "^0.2.0",
-		"facebook/graph-sdk": "^5.6"
+		"facebook/graph-sdk": "^5.6",
+		"egeloen/google-map": "^2.0",
+		"php-http/guzzle6-adapter": "^1.1",
+		"php-http/message-factory": "^1.0",
+		"egeloen/serializer": "^1.0",
+		"php-http/message": "^1.6"
 	},
 	"require-dev": {
 		"nette/tester": "^1.6"

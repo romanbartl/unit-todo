@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>{ifset title}{include title|striptags} | {/ifset}//TODO UNIT</title>
+    <title>{ifset title}{include title|striptags} | {/ifset}TODO UNIT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <!-- Icon -->
@@ -27,25 +27,38 @@
             <a class="navbar-brand" href="#">TODO</a>
         </div>
         <div class="form-inline navbar-right">
-            <a n:href="Homepage:"><span class="glyphicon glyphicon-user"></span><i class="fas fa-home my-margin-right-long" style="font-size:40px;"></i></a>
-            <a n:href="Homepage:login"><span class="circle-user"></span><i class="fas fa-user-circle my-margin-right" style="font-size:40px;"></i></a>
+            <a n:href="Homepage:"><span class="header-button"></span><i
+                        class="fas fa-home my-margin-right-long header-button"></i></a>
+            <a n:href="Homepage:login"><span class="header-button"></span><i
+                        class="fas fa-user-circle my-margin-right header-button"></i></a>
         </div>
     </div>
 </nav>
 
 <!-- Sidebar -->
 <div class="wrapper">
-
     <nav id="sidebar">
-        {include content}
+        {snippet contentSnippet}
+            {include content}
+        {/snippet}
+
     </nav>
+
+
+    <div id="content">
+        {$mapHelper|noescape}
+        {$mapApiHelper|noescape}
+        <button type="button" id="sidebarCollapse" class="navbar-btn buttonek">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
 </div>
 
-
-
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+<script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -53,23 +66,68 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+<script src="{$basePath}/js/nette.ajax.js"></script>
+<script src="{$basePath}/js/myjs.js"></script>
 <script>
     $(function () {
         $.nette.init();
     });
 </script>
+<script>
+    function fbAfterLogin() {
+        $.nette.ajax({
+            url: {link FacebookCookie!}
+        });
+    }
 
-<script src="{$basePath}/js/facebook.js"></script>
+</script>
+
+<script>
+    $(function () {
+
+        $('a.ajax').live('click', function () {
+            $.get(this.href);
+            return false; // aby se nepreslo na novou adresu
+        });
+    });
+</script>
+
 <script src="//connect.facebook.net/en_US/all.js"></script>
 <script>
+    var preLocation;
+
     FB.init({
-        appId  : '356707758145198',
-        status : true, // check login status
-        cookie : true, // enable cookies to allow the server to access the session
-        xfbml  : true, // parse XFBML
-        channelUrl : 'https://unitbrno.psopf.cz/', // channel.html file
-        oauth  : true // enable OAuth 2.0
+        appId: '356707758145198',
+        status: true,
+        cookie: true,
+        xfbml: true,
+        channelUrl: 'https://unitbrno.psopf.cz/',
+        oauth: true
     });
+
+    function savePreLocation() {
+        preLocation = map.getCenter();
+    }
+
+    function checkIfInArea() {
+        if (window.allowedBounds.contains(map.getCenter())) {
+            return;
+        }
+
+        if (window.allowedBounds.contains(preLocation)) {
+            map.setCenter(preLocation);
+        }
+        else {
+            map.setCenter(window.allowedBounds.getCenter());
+        }
+    }
+
+    function resize_map() {
+        var center = map.getCenter();
+        google.maps.event.trigger(map, "resize");
+        map.setCenter(center);
+    }
 </script>
 
 </body>

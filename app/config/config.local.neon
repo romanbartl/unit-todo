@@ -1,6 +1,15 @@
 parameters:
+    google:
+        apiKey: "AIzaSyDfotL66FGoibMafL-c8oNk8joyFtpcc6U"
+    facebook:
+        appId: "356707758145198"
+        appSecret: "12bdd062f3cd1c8dc85e5f56423fbe3b"
 
 doctrine:
     user: unit
     password: unitbrno
     dbname: unit
+
+facebook:
+	appId: %facebook.appId%
+	appSecret: %facebook.appSecret%
