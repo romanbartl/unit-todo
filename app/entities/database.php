@@ -50,7 +50,6 @@
         public function setCloseTime($v) { $this->closetime = $v; }
         public function setAdmission($v) { $this->admission = $v; }
         public function setCapacity($v) { $this->capacity = $v; }
-        public function setAdmission($v) { $this->admission = $v; }
 
         // addTag
     }
