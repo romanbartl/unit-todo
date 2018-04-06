@@ -50,7 +50,6 @@
         public function setCloseTime($v) { $this->closetime = $v; }
         public function setAdmission($v) { $this->admission = $v; }
         public function setCapacity($v) { $this->capacity = $v; }
-        public function setAdmission($v) { $this->admission = $v; }
 
         // addTag
     }
@@ -70,6 +69,10 @@
         private $location;
         
         public function getDresscode() { return $this->dresscode; }
+        public function getLocation() { return $this->location; }
+
+        public function setDresscode($v) { $this->dresscode = $v; }
+        public function setLocation($v) { $this->location = $v; }
     }
 
     /** @ORM\entity */
@@ -129,6 +132,8 @@
 
         public function getId() { return $this->id; }
         public function getName() { return $this->name; }
+
+        public function setName($v) { $this->name = $v; }
     }
 
 
