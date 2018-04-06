@@ -1,35 +1,39 @@
 <?php
 
-    /** @entity */
-    class Item {
+    namespace Database;
+
+    use Doctrine\ORM\Mapping as ORM;
+
+    /** @ORM\entity */
+    class Item extends \Kdyby\Doctrine\Entities\BaseEntity {
 
         /**
-         * @id @column(type="integer")
-         * @generatedValue
+         * @ORM\id @ORM\column(type="integer")
+         * @ORM\generatedValue
          */
         private $id;
         
         /**
-         * @column(type="time", options={"default" : '00:00:00'})
+         * @ORM\column(type="time", options={"default" : '00:00:00'})
          */
         private $opentime;
         /**
-         * @column(type="time", options={"default" : '24:00:00'})
+         * @ORM\column(type="time", options={"default" : '24:00:00'})
          */
         private $closetime;
         
         /**
-         * @column(type="integer", options={"default" : 0})
+         * @ORM\column(type="integer", options={"default" : 0})
          */
         private $admission;
 
         /**
-         * @column(type="integer", nullable=true, options={"default" : NULL})
+         * @ORM\column(type="integer", nullable=true, options={"default" : NULL})
          */
         private $capacity;
 
         /**
-         * @column(type="boolean", options={"default" : false})
+         * @ORM\column(type="boolean", options={"default" : false})
          */
         private $event;
 
@@ -48,26 +52,26 @@
         }
     }
 
-    /** @entity */
+    /** @ORM\entity */
     class Event extends Item
     {
         /**
-         * @column(type="string", options={"default" : 'casual'})
+         * @ORM\column(type="string", options={"default" : 'casual'})
          */
         private $dresscode;
 
         public function getDresscode() { return $this->dresscode; }
     }
 
-    /** @entity */
+    /** @ORM\entity */
     class Place extends Item
     {
         /**
-         * @column(type="decimal", options={"default" : 0})
+         * @ORM\column(type="decimal", options={"default" : 0})
          */
         private $x;
         /**
-         * @column(type="decimal", options={"default" : 0})
+         * @ORM\column(type="decimal", options={"default" : 0})
          */
         private $y;
 
