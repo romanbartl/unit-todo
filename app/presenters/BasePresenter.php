@@ -24,20 +24,48 @@ class BasePresenter extends \Nette\Application\UI\Presenter
             $token = $this->facebookLogin->getAccessTokenFromCookie();
             $data = $this->facebookLogin->getMe($token, ['id', 'email']);
 
-            //$uf = new UserFactory();
-            //if ($this->UserFactory->loginByFacebook($data['email'], $data['id'], $token))
-            //{
+            if ($this->UserFactory->loginByFacebook($data['email'], $data['id'], $token))
+            {
                 $user = $this->getUser();
                 $user->login($data['email'], NULL);
 
                 $this->flashMessage('JOOOO', 'success');
                 $this->redrawControl('flashMessages');
-            //}
+            }
 
         } catch (FacebookLoginException | AuthenticationException $e) {
             // TODO
             $this->flashMessage($e->getMessage(), 'danger');
             $this->redrawControl('flashMessages');
+        }
+    }
+
+    protected function createComponentRegistrationForm()
+    {
+        $form = new \Nette\Application\UI\Form;
+        $form->getElementPrototype()->class('lol');
+        $form->getElementPrototype()->class('ajax');
+
+        $form->addText('email')->setAttribute('class', 'form-control')->setAttribute('placeholder', 'Email');
+        $form->addPassword('passwd')->setAttribute('class', 'form-control')->setAttribute('placeholder', 'Password');;
+        $form->addPassword('passwdAgain')->setAttribute('class', 'form-control')->setAttribute('placeholder', 'Password again');
+
+        $form->addSubmit('register', 'Registrovat')->setAttribute('class', 'btn btn-primary btn-block');
+        $form->onSuccess[] = [$this, 'registrationFormSucceeded'];
+        return $form;
+    }
+
+    public function registrationFormSucceeded()
+    {
+        if($this->isAjax()) {
+
+        }
+    }
+
+    public function handleRegister()
+    {
+        if($this->isAjax()) {
+            $this->redrawControl('contentSnippet');
         }
     }
 }

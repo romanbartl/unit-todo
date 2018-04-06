@@ -27,8 +27,10 @@
             <a class="navbar-brand" href="#">TODO</a>
         </div>
         <div class="form-inline navbar-right">
-            <a n:href="Homepage:"><span class="glyphicon glyphicon-user"></span><i class="fas fa-home my-margin-right-long" style="font-size:40px; color: #7386D5;"></i></a>
-            <a n:href="Homepage:login"><span class="circle-user"></span><i class="fas fa-user-circle my-margin-right" style="font-size:40px; color: #7386D5;"></i></a>
+            <a n:href="Homepage:"><span class="header-button"></span><i
+                        class="fas fa-home my-margin-right-long header-button"></i></a>
+            <a n:href="Homepage:login"><span class="header-button"></span><i
+                        class="fas fa-user-circle my-margin-right header-button"></i></a>
         </div>
     </div>
 </nav>
@@ -36,8 +38,9 @@
 <!-- Sidebar -->
 <div class="wrapper">
     <nav id="sidebar">
-
-        {include content}
+        {snippet contentSnippet}
+            {include content}
+        {/snippet}
 
     </nav>
 
@@ -79,16 +82,45 @@
     }
 </script>
 
+<script>
+    $(function () {
+        $('a.ajax').live('click', function () {
+            $.get(this.href);
+            return false; // aby se nepreslo na novou adresu
+        });
+    });
+</script>
+
 <script src="//connect.facebook.net/en_US/all.js"></script>
 <script>
+    var preLocation;
     FB.init({
-        appId  : '356707758145198',
-        status : true,
-        cookie : true,
-        xfbml  : true,
-        channelUrl : 'https://unitbrno.psopf.cz/',
-        oauth  : true
+        appId: '356707758145198',
+        status: true,
+        cookie: true,
+        xfbml: true,
+        channelUrl: 'https://unitbrno.psopf.cz/',
+        oauth: true
     });
+    function savePreLocation() {
+        preLocation = map.getCenter();
+    }
+    function checkIfInArea() {
+        if (window.allowedBounds.contains(map.getCenter())) {
+            return;
+        }
+        if (window.allowedBounds.contains(preLocation)) {
+            map.setCenter(preLocation);
+        }
+        else {
+            map.setCenter(window.allowedBounds.getCenter());
+        }
+    }
+    function resize_map() {
+        var center = map.getCenter();
+        google.maps.event.trigger(map, "resize");
+        map.setCenter(center);
+    }
 </script>
 
 </body>
