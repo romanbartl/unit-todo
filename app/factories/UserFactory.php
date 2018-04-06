@@ -4,7 +4,6 @@ namespace App;
 
 use Doctrine\ORM\EntityManager;
 
-
 class UserFactory
 {
     /**
@@ -30,7 +29,7 @@ class UserFactory
         if ($user) {
             if ($facebookId != $user->getFacebookId())
             {
-                throw new UserException("Given email is already connected to different facebook user ");
+                throw new UserException("Uživatel z daným emailem už je již registrován pod jiným facebookem");
             }
 
             return true;
@@ -45,6 +44,24 @@ class UserFactory
             $this->EntityManager->persist($newUser);
             $this->EntityManager->flush();
         }
+
+        return true;
+    }
+
+    public function register($email, $password)
+    {
+        $user = $this->findUserByEmail($email);
+
+        if ($user) {
+            return false;
+        }
+
+        $newUser = new User();
+        $newUser->setEmail($email);
+        $newUser->setPassword(\Nette\Security\Passwords::hash($password));
+
+        $this->EntityManager->persist($newUser);
+        $this->EntityManager->flush();
 
         return true;
     }

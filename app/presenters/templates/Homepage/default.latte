@@ -1,39 +1,40 @@
 {block content}
 
 <div class="sidebar-top">
-    <div class="sidebar-button"><a n:href="Homepage:"><i class="fas fa-search fa-3x meny"></i></a></div>
-    <div class="sidebar-button"><a n:href="Homepage:"><i class="fas fa-level-up-alt fa-3x meny" data-fa-transform="flip-v"></i></a></div>
-    <div class="sidebar-button"><a n:href="Homepage:"><i class="fas fa-bookmark fa-3x meny"></i></a></div>
+    <div class="sidebar-button"><a n:href="Homepage:" class="ajax"><i class="fas fa-search fa-3x meny"></i></a></div>
+    <div class="sidebar-button"><a n:href="Homepage:plan" class="ajax"><i class="fas fa-level-up-alt fa-3x meny" data-fa-transform="flip-v"></i></a></div>
+    <div class="sidebar-button"><a n:href="Homepage:mybag" class="ajax"><i class="far fa-bookmark fa-3x meny"></i></a></div>
 </div>
 
-<ul class="list-unstyled components">
-    <p>INSERT NETTE FORM HERE</p>
-    <li class="active">
-        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Home</a>
-        <ul class="collapse list-unstyled" id="homeSubmenu">
-            <li><a href="#">Home 1</a></li>
-            <li><a href="#">Home 2</a></li>
-            <li><a href="#">Home 3</a></li>
-        </ul>
-    </li>
+<div class="list-unstyled">
+
+
+<ul class="components">
+
+    <div class="map-filters">
+        <div class="map-filters-button"><a href="#"><i class="fas fa-utensils fa-lg"></i></a></div>
+        <div class="map-filters-button"><a  href="#"><i class="fas fa-bus fa-lg"></i></a></div>
+        <div class="map-filters-button"><a  href="#"><i class="fas fa-map-marker fa-lg"></i></a></div>
+        <div class="map-filters-button"><a  href="#"><i class="fas fa-shopping-basket fa-lg"></i></a></div>
+        <div class="map-filters-button"><a  href="#"><i class="fas fa-hospital-symbol fa-lg"></i></a></div>
+    </div>
+
+
+    <div class="search-bar">
+        <p>SEARCH BAR HERE</p>
+    </div>
     <li>
-        <a href="#">About</a>
-        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
-        <ul class="collapse list-unstyled" id="pageSubmenu">
-            <li><a href="#">Page 1</a></li>
-            <li><a href="#">Page 2</a></li>
-            <li><a href="#">Page 3</a></li>
-        </ul>
-    </li>
-    <li>
-        <a href="#">Portfolio</a>
-    </li>
-    <li>
-        <a href="#">Contact</a>
-    </li>
+        <a href="#">Nejbližší restaurace</a>
+        <a href="#">Nejbližší zastávka MHD</a>
+        {if ($user->isLoggedIn())}
+            <p class="sidebar-text">Rychlé vehledávání</p>
+        <a href="#">Domů</a>
+        <a href="#">Do školy</a>
+        <a href="#">Na kebab</a>
+        {/if}
 </ul>
 
 <ul class="list-unstyled CTAs">
-    <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a></li>
-    <li><a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a></li>
 </ul>
+
+</div>
