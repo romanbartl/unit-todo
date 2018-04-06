@@ -42,5 +42,23 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+<script>
+    $(function () {
+        $.nette.init();
+    });
+</script>
+
+<script src="//connect.facebook.net/en_US/all.js"></script>
+<script>
+    FB.init({
+        appId  : '356707758145198',
+        status : true, // check login status
+        cookie : true, // enable cookies to allow the server to access the session
+        xfbml  : true, // parse XFBML
+        channelUrl : 'https://unitbrno.psopf.cz/', // channel.html file
+        oauth  : true // enable OAuth 2.0
+    });
+</script>
+
 </body>
 </html>
