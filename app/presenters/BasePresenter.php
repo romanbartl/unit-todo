@@ -18,6 +18,7 @@ class BasePresenter extends \Nette\Application\UI\Presenter
     /** @var UserFactory @inject */
     public $UserFactory;
 
+
     public function handleFacebookCookie()
     {
         try {
@@ -62,9 +63,11 @@ class BasePresenter extends \Nette\Application\UI\Presenter
         }
     }
 
-    public function handleRegister()
+    public function renderRegister()
     {
         if($this->isAjax()) {
+            //$this->template->pes = "2";
+            //$this->redirect('Homepage:register');
             $this->redrawControl('contentSnippet');
         }
     }
