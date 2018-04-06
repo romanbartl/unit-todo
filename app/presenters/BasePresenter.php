@@ -15,15 +15,21 @@ class BasePresenter extends \Nette\Application\UI\Presenter
     public $facebookLogin;
 
 
-    public function actionFacebookCookie()
+    public function handleFacebookCookie()
     {
-        // Fetch User data from FB and try to login
+
         try {
             $token = $this->facebookLogin->getAccessTokenFromCookie();
+            $data = $this->facebookLogin->getMe($token, ['id', 'email']);
 
-            $this->user->login('facebook', $this->facebookLogin->getMe($token, ['first_name', 'last_name', 'email', 'gender']));
-            $this->flashMessage('Login successful :-).', 'success');
+
+
+            $this->flashMessage($data, 'success');
+            $this->redrawControl('flashMessages');
+
+
         } catch (FacebookLoginException | AuthenticationException $e) {
+            // TODO
             $this->flashMessage('Login failed. :-( Try again.', 'danger');
         }
     }
