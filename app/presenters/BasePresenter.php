@@ -139,4 +139,25 @@ class BasePresenter extends \Nette\Application\UI\Presenter
             $this->redrawControl('contentSnippet');
         }
     }
+
+    public function renderPlan()
+    {
+        if ($this->isAjax()) {
+            $this->redrawControl('contentSnippet');
+        }
+    }
+
+    public function renderDefault()
+    {
+        if ($this->isAjax()) {
+            $this->redrawControl('contentSnippet');
+        }
+    }
+
+    public function renderMybag()
+    {
+        if ($this->isAjax()) {
+            $this->redrawControl('contentSnippet');
+        }
+    }
 }
