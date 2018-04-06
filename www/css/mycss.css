@@ -11,12 +11,26 @@
 
 .sidebar-top {
     height: 108px;
+    background-color: #6575b8ff;
+}
+
+.map-filters {
+    height: 40px;
+
+}
+
+.map-filters-button {
+    float:left;
+    margin-top: 10px;
+    margin-left: 26px;
+    margin-right: 23px;
+
 }
 
 .sidebar-button {
     float:left;
     margin-top: 30px;
-    margin-left: 35px;
+    margin-left: 38px;
     margin-right: 35px;
 }
 
@@ -32,6 +46,65 @@
 }
 .header-button:hover {
     color: #626ed5;
+}
+
+.search-bar{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.sidebar-text {
+    margin-top:20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: -5px;
+}
+
+.start-bar,
+.finish-bar {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.another-bar{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.another-button{
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.another-button-butt {
+    background-color: #444e7cff;
+    border-color: #3e436a;
+}
+
+.another-button-butt:hover {
+    background-color: #3e436a;
+    border-color: #3e436a;
+}
+
+.ready-to-add {
+    list-style-type: none;
+}
+
+#dylytko {
+    display: none;
 }
 
 body {
@@ -105,7 +178,6 @@ a, a:hover, a:focus {
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
 }
 
 #sidebar ul p {
@@ -138,11 +210,15 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
     display: block;
     position: absolute;
     right: 20px;
-    font-family: 'Glyphicons Halflings';
     font-size: 0.6em;
+    top: 15px;
+    content: url('./../images/arrow_down.png');
 }
+
 a[aria-expanded="true"]::before {
     content: '\e260';
+    color: white;
+    content: url('./../images/arrow_up.png');
 }
 
 
