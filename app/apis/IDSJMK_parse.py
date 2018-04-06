@@ -4,9 +4,10 @@
 import re
 import requests
 from html.parser import HTMLParser
+import sys
 
 # Open database connection
-#db = mysql.connect(host="213.136.88.33", user="unit", passwd="unitbrno", db="unit")
+#db = mysql.connect(host="localhost", user="unit", passwd="unitbrno", db="unit")
 
 # prepare a cursor object using cursor() method
 #cursor = db.cursor()
@@ -18,16 +19,29 @@ from html.parser import HTMLParser
 #data = cursor.fetchone()
 #print "Database version : %s " % data
 
-# disconnect from server
-#db.close()
+start = u''
+end = u''
+date = u''
+time = u''
+key = ''
+for n in range(1,len(sys.argv)-1, 2):
+    if sys.argv[n] == '--from':
+        start = sys.argv[n+1]
+    elif sys.argv[n] == '--to':
+        end = sys.argv[n+1]
+    elif sys.argv[n] == '--date':
+        date = sys.argv[n+1]
+    elif sys.argv[n] == '--time':
+        time = sys.argv[n+1]
+    else:
+        print("Usage: ./IDSJMK_parse.py --from <stop> --to <stop> --date <date dd.mm.yy> --time <time hh:mm>.", file=sys.stderr)
+        exit()
+    
 
-
-start = u'Tetčice'
-end = u'Rozcestí'
-date = u'6.4.18'
-time = u'20:20'
+print(start + ' -> ' + end + ' @ ' + date + ', ' + time)
 urlrequest = 'https://www.idsjmk.cz/spojeni.aspx?f='+ start + '&t=' + end + '&date=' + date + '&time=' + time
 
+print(urlrequest)
 
 
 result = requests.get(urlrequest)
@@ -48,11 +62,16 @@ class MyHTMLParser(HTMLParser):
         if tag == 'tr':
             
             if ('class', 'datarow first') in attrs:
+                if self.ld != []:
+                    self.lld.append(self.ld)
                 self.ld = []
                 self.d = {}
                 self.i = 0
+                self.key = ''
 
             if ('class', 'datarow') in attrs:
+                if self.d != {}:
+                    self.ld.append(self.d)
                 self.d = {}
                 self.i = 0
         
@@ -66,17 +85,17 @@ class MyHTMLParser(HTMLParser):
 
 
     def handle_endtag(self, tag):
-        if self.i > 6:
-            self.i = -1
-        if (tag == 'td') and (self.d != {}):
+        if (tag == 'td') and (self.i == 6):
             self.ld.append(self.d)
-            self.d = {}
 
         if (tag == 'tr') and (self.ld != []):
-            self.ld.append(self.d)
-            self.lld.append(self.ld)
+            if (len(self.lld) == 2):
+                self.lld.append(self.ld)
             self.d = {}
-            self.ld = []
+            self.i = -1
+        
+        if self.i > 6:
+            self.i = -1
 
     def handle_data(self, data):
         if self.key != '':
@@ -87,14 +106,52 @@ class MyHTMLParser(HTMLParser):
 
 parser = MyHTMLParser()
 parser.feed(html)
-print(parser.lld)
+
+lld = []
+for route in parser.lld:
+    ld = []
+    d = {}
+    for it in route:
+        # only departing, merge with following
+        if (it['arr'] == '') and (it['dep'] != ''):
+            d['starttime'] = it['dep']
+            d['start'] = it['stop']
+            d['startzone'] = it['zone']
+
+        
+        # only arriving, merge with previous
+        elif (it['arr'] != '') and (it['dep'] == ''):
+            d['endtime'] = it['arr']
+            d['end'] = it['stop']
+            d['endzone'] = it['zone']
+            ld.append(d)
+            d = {}
+            d['starttime'] = it['dep']
+            d['start'] = it['stop']
+            d['startzone'] = it['zone']
+        
+        # change, split into two
+        else:
+            d['endtime'] = it['arr']
+            d['end'] = it['stop']
+            d['endzone'] = it['zone']
+            ld.append(d)
+            d = {}
+            d['starttime'] = it['dep']
+            d['start'] = it['stop']
+            d['startzone'] = it['zone']
+    lld.append(ld)
 
 
+for n in lld:
+    for d in n:
+                                                   # MHD id # init ID# name # start          # starttime         # end          # endtime
+        insertion = "INSERT INTO Route VALUES ("+str(1)+","+str(1)+",'','"+d['start']+"','"+d['starttime']+"','"+d['end']+"','"+d['endtime']+"');"
+        print(insertion)
+        #cursor.execute(insertion)
+        #print(insertion, end="\n")
+#cursor.execute("INSERT INTO Route VALUES (")
 
-#parse = HTMLParser()
-#print(parse.feed(html))
+# disconnect from server
+#db.close()
 
-
-
-
-#print(html)
