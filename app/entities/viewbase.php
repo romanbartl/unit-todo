@@ -4,7 +4,6 @@
 
     use Doctrine\ORM\Mapping as ORM;
 
-    /** @ORM\entity */
     class Point {
 
         /**
@@ -12,27 +11,32 @@
          * @ORM\column(type="integer")
          * @ORM\generatedValue
          */
-        protected $id;
+        //protected $id;
 
         /**
          * @ORM\OneToOne(targetEntity="Point")
          */
-        private $follower;
+        //private $follower;
     
         /**
          * @ORM\ManyToOne(targetEntity="Item")
          */
-        private $item;
+        //private $item;
 
         /**
-         * @ORM\OneToMany(targetEntity="Route", mappedBy="initial", cascade={"ALL"}, indexBy="id")
+         * @ORM\OneToOne(targetEntity="Route")
          */
-        private $routes;
+        //private $route;
 
         /**
-         * @ORM\ManyToOne(targetEntity="Plan", inversedBy="begin")
+         * @ORM\column(type="time")
          */
-        private $plan;
+        //private $starttime;
+
+        /**
+         * @ORM\column(type="time")
+         */
+        //private $endtime;
         
 
         public function getId() { return $this->id; }
@@ -40,15 +44,18 @@
         public function getItem() { return $this->item; }
         public function getTransport() { return $this->transport; }
         public function getPlan() { return $this->plan; }
+        public function getStartTime() { return $this->starttime; }
+        public function getEndTime() { return $this->endtime; }
         
         public function setFollower($v) { $this->follower = $v; }
         public function setItem($v) { $this->item = $v; }
         public function setTransport($v) { $this->transport = $v; }
         public function setPlan($v) { $this->plan; }
+        public function setStartTime($v) { $this->starttime = $v; }
+        public function setEndTime($v) { $this->endtime = $v; }
 
     }
 
-    /** @ORM\entity */
     class Route {
     
         /**
@@ -68,48 +75,23 @@
         private $type;
 
         /**
-         * @ORM\ManyToOne(targetEntity="Point", inversedBy="routes")
+         * @ORM\ManyToOne(targetEntity="Point")
          */
         private $initial;
 
-        /**
-         * @ORM\column(type="string")
-         */
-        private $start;
-        /**
-         * @ORM\column(type="time")
-         */
-        private $starttime;
-
-        /**
-         * @ORM\column(type="string")
-         */
-        private $end;
-        /**
-         * @ORM\column(type="time")
-         */
-        private $endtime;
+        
 
 
 
         public function getId() { return $this->id; }
         public function getName() { return $this->name; }
         public function getInitial() { return $this->initial; }
-        public function getStart() { return $this->start; }
-        public function getStartTime() { return $this->starttime; }
-        public function getEnd() { return $this->end; }
-        public function getEndTime() { return $this->endtime; }
 
         public function setName($v) { $this->name = $v; }
         public function setInitial($v) { $this->initial = $v; }
-        public function setStart($v) { $this->start = $v; }
-        public function setStartTime($v) { $this->starttime = $v; }
-        public function setEnd($v) { $this->end = $v; }
-        public function setEndTime($v) { $this->endtime = $v; }
 
     }
 
-    /** @ORM\entity */
     class Plan {
 
         /**
@@ -138,7 +120,6 @@
     }
 
 
-    /** @ORM\entity */
     class TravelType {
         
         /**
