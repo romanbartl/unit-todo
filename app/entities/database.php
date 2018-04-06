@@ -5,15 +5,14 @@
     use Doctrine\ORM\Mapping as ORM;
 
     /** @ORM\entity */
-    class Item {
+    class Item extends \Kdyby\Doctrine\Entities\BaseEntity {
 
         /**
-         * @ORM\Id
-         * @ORM\column(type="integer")
+         * @ORM\id @ORM\column(type="integer")
          * @ORM\generatedValue
          */
         private $id;
-        
+
         /**
          * @ORM\column(type="time", options={"default" : '00:00:00'})
          */
@@ -22,7 +21,7 @@
          * @ORM\column(type="time", options={"default" : '24:00:00'})
          */
         private $closetime;
-        
+
         /**
          * @ORM\column(type="integer", options={"default" : 0})
          */
@@ -34,9 +33,9 @@
         private $capacity;
 
         /**
-         * @manyToMany(targetEntity="Tag")
+         * @ORM\column(type="boolean", options={"default" : false})
          */
-        private $tags;
+        private $event;
 
         public function getId() { return $this->id; }
         public function getOpenTime() { return $this->opentime; }
@@ -45,13 +44,12 @@
         public function getCapacity() { return $this->capacity; }
         public function isEvent() { return false; }
         public function isPlace() { return false; }
-        
-        public function setOpenTime($v) { $this->opentime = $v; }
-        public function setCloseTime($v) { $this->closetime = $v; }
-        public function setAdmission($v) { $this->admission = $v; }
-        public function setCapacity($v) { $this->capacity = $v; }
 
-        // addTag
+        public function setAdmission($value) {
+            if(!$value) { throw new Exception("A value expected!"); }
+            else if($value < 0) { throw new Exception("Invalid admission value!"); }
+            else { $admission = $value; }
+        }
     }
 
     /** @ORM\entity */
@@ -62,12 +60,6 @@
          */
         private $dresscode;
 
-        /**
-         * @ORM\Id
-         * @ORM\ManyToOne(targetEntity="Place", inversedBy="events")
-         */
-        private $location;
-        
         public function getDresscode() { return $this->dresscode; }
     }
 
@@ -83,52 +75,31 @@
          */
         private $y;
 
-        /**
-         * @ORM\column(type="boolean", options={"default" : false})
-         */
-        private $outside;
-
-        /**
-         * @ORM\OneToMany(targetEntity="Event", mappedBy="location", cascade={"ALL"}, indexBy="id")
-         */
-        private $events;
-
         public function getX() { return $this->x; }
         public function getY() { return $this->y; }
-        public function getOutside() { return $this->outside; }
-        public function getInside() { return !$this->outside; }
-
-        public function setX($v) { $this->x = $v; }
-        public function setY($v) { $this->y = $v; }
-        public function setOutside($v = true) { $this->outside = $v; }
-        public function setInside($v = true) { $this->outside = !$v; }
-
-        // addEvent
     }
 
     /** @ORM\entity */
-    class Tag
-    {
+    class Favourite extends \Kdyby\Doctrine\Entities\BaseEntity {
         /**
-         * @ORM\Id
-         * @ORM\column(type="integer")
+         * @ORM\id @ORM\column(type="integer")
          * @ORM\generatedValue
          */
         private $id;
 
+        private $user;
+    }
+
+    /** @ORM\entity */
+    class User extends \Kdyby\Doctrine\Entities\BaseEntity {
         /**
          * @ORM\column(type="string")
          */
+        private $mail;
+
         private $name;
+        private $surname;
 
-        /**
-         * @manyToMany(targetEntity="Item", mappedBy="tags")
-         */
-        private $tagged;
-
-        public function getId() { return $this->id; }
-        public function getName() { return $this->name; }
+        public function getMail() { return $this->mail; }
     }
-
-
 ?>
