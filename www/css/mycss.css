@@ -2,11 +2,22 @@
 
 
 .my-margin-right{
-    margin-right: 50px !important;
+    margin-right: 60px !important;
 }
 
 .my-margin-right-long {
     margin-right: 100px !important;
+}
+
+.sidebar-top {
+    height: 108px;
+}
+
+.sidebar-button {
+    float:left;
+    margin-top: 30px;
+    margin-left: 35px;
+    margin-right: 35px;
 }
 
 
@@ -157,12 +168,16 @@ a.article, a.article:hover {
 ----------------------------------------------------- */
 .buttonek {
     cursor: pointer;
+    margin: 20px;
+    position: absolute;
+    z-index: 1;
+    top: 5%;
 }
 
 #content {
-    padding: 20px;
     transition: all 0.3s;
     height: calc(100vh - 70px);
+    width: 100%;
 }
 
 #sidebarCollapse {
@@ -204,7 +219,7 @@ a.article, a.article:hover {
 ----------------------------------------------------- */
 @media (max-width: 768px) {
     #sidebar {
-        margin-left: -250px;
+        margin-left: -350px;
         transform: rotateY(90deg);
     }
     #sidebar.active {
