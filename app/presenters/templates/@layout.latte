@@ -20,6 +20,7 @@
 
 </head>
 <body>
+
 <!-- Header -->
 <nav class="navbar sticky-top navbar-dark bg-dark">
     <div class="container-fluid">
@@ -28,7 +29,7 @@
         </div>
         <div class="form-inline navbar-right">
             <a n:href="Homepage:"><span class="glyphicon glyphicon-user"></span><i class="fas fa-home my-margin-right-long" style="font-size:40px;"></i></a>
-            <a n:href="Homepage:"><span class="circle-user"></span><i class="fas fa-user-circle my-margin-right" style="font-size:40px;"></i></a>
+            <a n:href="Login:"><span class="circle-user"></span><i class="fas fa-user-circle my-margin-right" style="font-size:40px;"></i></a>
         </div>
     </div>
 </nav>
@@ -37,37 +38,11 @@
 <div class="wrapper">
 
     <nav id="sidebar">
-        <!-- Sidebar Header -->
-        <div class="sidebar-header">
-            <h3>Collapsible Sidebar</div>
+        {include content}
+    </nav>
 </div>
 
-<!-- Sidebar Links -->
-<ul class="list-unstyled components">
-    <li class="active"><a href="#">Home</a></li>
-    <li><a href="#">About</a></li>
-    <li><!-- Link with dropdown items -->
-        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
-        <ul class="collapse list-unstyled" id="homeSubmenu">
-            <li><a href="#">Page</a></li>
-            <li><a href="#">Page</a></li>
-            <li><a href="#">Page</a></li>
-        </ul>
-    <li><a href="#">Portfolio</a></li>
-    <li><a href="#">Contact</a></li>
-</ul>
-</nav>
 
-<div id="content">
-    <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-        <i class="glyphicon glyphicon-align-left"></i>
-        Toggle Sidebar
-    </button>
-    <div>
-
-    </div>
-
-{include content}
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -85,7 +60,7 @@
     });
 </script>
 
-<script src="{$basePath}/js/facebook.js"></script>
+<script src="{$basePath}/js/facebook.js"</body>
 <script src="//connect.facebook.net/en_US/all.js"></script>
 <script>
     FB.init({
