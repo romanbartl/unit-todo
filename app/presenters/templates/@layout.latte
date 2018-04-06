@@ -33,15 +33,24 @@
     </div>
 </nav>
 
-{include content}
-
 <!-- Sidebar -->
 <div class="wrapper">
     <nav id="sidebar">
+
+        {include content}
+
     </nav>
+
+
+    <div id="content">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn buttonek">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
 </div>
-
-
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.js"
@@ -55,6 +64,7 @@
         crossorigin="anonymous"></script>
 
 <script src="{$basePath}/js/nette.ajax.js"></script>
+<script src="{$basePath}/js/myjs.js"></script>
 <script>
     $(function () {
         $.nette.init();
