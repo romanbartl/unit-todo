@@ -33,19 +33,29 @@
     </div>
 </nav>
 
-{include content}
-
 <!-- Sidebar -->
 <div class="wrapper">
     <nav id="sidebar">
+
+        {include content}
+
     </nav>
 </div>
 
+<div id="content">
+
+    <button type="button" id="sidebarCollapse" class="navbar-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+</div>
 
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+<script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -55,6 +65,7 @@
         crossorigin="anonymous"></script>
 
 <script src="{$basePath}/js/nette.ajax.js"></script>
+<script src="{$basePath}/js/myjs.js"></script>
 <script>
     $(function () {
         $.nette.init();
@@ -62,8 +73,6 @@
 </script>
 <script>
     function fbAfterLogin() {
-        alert("fb login");
-
         $.nette.ajax({
             url: {link FacebookCookie!}
         });
