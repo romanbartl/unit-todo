@@ -65,6 +65,10 @@
          * @ORM\column(type="string")
          */
         private $name;
+        /**
+         * @ORM\ManyToOne(targetEntity="TravelType")
+         */
+        private $type;
 
         /**
          * @ORM\Id
@@ -111,6 +115,7 @@
 
     /** @ORM\entity */
     class Plan {
+
         /**
          * @ORM\Id
          * @ORM\column(type="integer")
@@ -123,15 +128,43 @@
          */
         private $begin;
 
+        /**
+         * @manyToOne(targetEntity="TravelType")
+         */
+        private $preferred;
+
 
 
         public function getBegin() { return $this->begin; }
 
         public function setBegin($v) { $this->begin = $v; }
 
-        
     }
 
+
+    /** @ORM\entity */
+    class TravelType {
+        
+        /**
+         * @ORM\Id
+         * @ORM\column(type="integer")
+         * @ORM\generatedValue
+         */
+        private $id;
+        
+        /**
+         * @ORM\column(type="string")
+         */
+        private $type;
+
+
+
+        public function getType() { return $this->type; }
+
+        public function setType($v) { $this->type = $v;  }
+    }
+
+    
 
 
 ?>
