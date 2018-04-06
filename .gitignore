@@ -5,6 +5,7 @@ temp/*
 !.htaccess
 !web.config
 vendor/*
+composer.phar
 
 # User-specific stuff
 .idea/*
