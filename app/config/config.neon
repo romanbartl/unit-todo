@@ -16,9 +16,16 @@ extensions:
     events: Kdyby\Events\DI\EventsExtension
     annotations: Kdyby\Annotations\DI\AnnotationsExtension
     doctrine: Kdyby\Doctrine\DI\OrmExtension
+    facebook: Kdyby\Facebook\DI\FacebookExtension
 
 doctrine:
     resultCache: default
     cache: default
     metadata:
         App: %appDir%
+
+facebook:
+	appId: "356707758145198"
+	appSecret: "12bdd062f3cd1c8dc85e5f56423fbe3b"
+	permissions: [public_profile, email]
+	graphVersion: v2.3
