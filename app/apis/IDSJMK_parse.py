@@ -34,7 +34,7 @@ for n in range(1,len(sys.argv)-1, 2):
     elif sys.argv[n] == '--time':
         time = sys.argv[n+1]
     else:
-        print("Usage: ./IDSJMK_parse.py --from <stop> --to <stop> --date <date dd.mm.yy> --time <time hh:mm>.", file=sys.stderr)
+        print("Usage: ./IDSJMK_parse.py --from <stop> --to <stop> --date <date dd.mm.yy> --time <time hh:mm>", file=sys.stderr)
         exit()
     
 
