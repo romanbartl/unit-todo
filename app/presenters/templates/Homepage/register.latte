@@ -1,42 +1,57 @@
-
 {block content}
 
-<div>
+<div class="sidebar-top">
+    <div id="heading-div">
+        <span class="header-log">Registrace</span>
+    </div>
+</div>
+
+
+<div id="formsContent">
     {form registrationForm}
-        <div class="input-group">
+        <div class="input-group formItem">
             {input email}
         </div>
 
-        <div class="input-group">
+        <div class="input-group formItem">
             {input passwd}
         </div>
-        <div class="input-group">
+        <div class="input-group formItem">
             {input passwdAgain}
         </div>
 
-        {input register}
-
+        <div id="formButton">
+            {input register}
+        </div>
     {/form}
 
-    <div
-            class="fb-login-button"
-            onlogin="fbAfterLogin()"
-            data-width="200"
-            data-max-rows="3"
-            data-size="large"
-            data-button-type="continue_with"
-            data-show-faces="false"
-            data-auto-logout-link="false"
-            data-use-continue-as="true"
-            data-scope="email,public_profile"
-    >
-        Login via FB
+    <div class="log-link">
+        <a id="loginHref" n:href="Homepage:login" class="ajax" onclick="toLogin()">Máte již účet?</a>
     </div>
 
+    <div id="fbButton">
 
-    <div>
-        {snippet flashMessages}
-            <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
-        {/snippet}
+        <div
+                class="fb-login-button"
+                onlogin="fbAfterLogin()"
+                data-width="200"
+                data-max-rows="3"
+                data-size="large"
+                data-button-type="continue_with"
+                data-show-faces="false"
+                data-auto-logout-link="false"
+                data-use-continue-as="true"
+                data-scope="email,public_profile"
+        >
+            Login via FB
+        </div>
     </div>
 </div>
+
+
+<div>
+    {snippet flashMessages}
+        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+    {/snippet}
+</div>
+
