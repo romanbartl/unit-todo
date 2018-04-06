@@ -94,7 +94,7 @@
          */
         private $endtime;
 
-        
+
 
         public function getId() { return $this->id; }
         public function getName() { return $this->name; }
@@ -134,7 +134,7 @@
         private $preferred;
 
 
-
+        public function getId() { return $this->id; }
         public function getBegin() { return $this->begin; }
 
         public function setBegin($v) { $this->begin = $v; }
