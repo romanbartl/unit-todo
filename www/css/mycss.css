@@ -1,0 +1,18 @@
+.my-margin-right{
+    margin-right: 50px !important;
+}
+
+.my-margin-right-long{
+    margin-right: 100px !important;
+}
+
+.wrapper {
+    display: flex;
+    background-color: #7A7772;
+    width: 20%;
+    float: right;
+}
+
+#sidebar {
+    height: 100%;
+}
