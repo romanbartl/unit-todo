@@ -1,44 +1,33 @@
 <?php
 
-use Nette\Application\Routers\Route;
-use Nette\Application\Routers\RouteList;
-use Nette\Application\Routers\SimpleRouter;
+require __DIR__ . '/../vendor/autoload.php';
 
-
-// Load Nette Framework
-if (@!include __DIR__ . '/../../../Nette/loader.php') {
-	die('Install Nette using `composer update`');
-}
-
-// Configure application
 $configurator = new Nette\Configurator;
 
-// Enable Tracy for error visualisation & logging
-$configurator->enableTracy(__DIR__ . '/../log');
+//$array = array("46.13.152.31", "90.183.127.2", "46.167.201.252");
 
-// Enable RobotLoader - this will load all classes automatically
+$configurator->setDebugMode(true);
+$configurator->enableDebugger(__DIR__ . '/../log');
+
+$configurator->setTimeZone('Europe/Prague');
 $configurator->setTempDirectory(__DIR__ . '/../temp');
+
 $configurator->createRobotLoader()
-	->addDirectory(__DIR__)
-	->register();
+    ->addDirectory(__DIR__)
+    ->register();
 
-// Create Dependency Injection container from config.neon file
-$configurator->addConfig(__DIR__ . '/config.neon');
+$configurator->addConfig(__DIR__ . '/config/config.neon');
+$configurator->addConfig(__DIR__ . '/config/config.local.neon');
+
+//hezké URL, jednou..
+/*
+use Nette\Application\Routers\RouteList;
+use Nette\Application\Routers\Route;
+$router = new RouteList();
+$router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
+$router[] = new Route('hrac/<action>[<user>]', 'Hrac:default');
+*/
 $container = $configurator->createContainer();
-
-// Setup router using mod_rewrite detection
-if (function_exists('apache_get_modules') && in_array('mod_rewrite', apache_get_modules(), true)) {
-	$router = $container->getByType(Nette\Application\IRouter::class);
-	$router[] = new Route('index.php', 'Front:Default:default', Route::ONE_WAY);
-
-	$router[] = $adminRouter = new RouteList('Admin');
-	$adminRouter[] = new Route('admin/<presenter>/<action>', 'Default:default');
-
-	$router[] = $frontRouter = new RouteList('Front');
-	$frontRouter[] = new Route('<presenter>/<action>[/<id>]', 'Default:default');
-
-} else {
-	$container->addService('router', new SimpleRouter('Front:Default:default'));
-}
+//$container->addService('router', $router);
 
 return $container;
