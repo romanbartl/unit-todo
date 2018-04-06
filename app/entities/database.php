@@ -1,27 +1,28 @@
 <?php
 
-    namespace Database;
+    namespace App;
 
     use Doctrine\ORM\Mapping as ORM;
 
     /** @ORM\entity */
-    class Item extends \Kdyby\Doctrine\Entities\BaseEntity {
+    class Item {
 
         /**
-         * @ORM\id @ORM\column(type="integer")
+         * @ORM\Id
+         * @ORM\column(type="integer")
          * @ORM\generatedValue
          */
-        private $id;
-
+        protected $id;
+        
         /**
-         * @ORM\column(type="time", options={"default" : '00:00:00'})
+         * @ORM\column(type="time", options={"default" : "00:00:00"})
          */
         private $opentime;
         /**
-         * @ORM\column(type="time", options={"default" : '24:00:00'})
+         * @ORM\column(type="time", options={"default" : "24:00:00"})
          */
         private $closetime;
-
+        
         /**
          * @ORM\column(type="integer", options={"default" : 0})
          */
@@ -33,9 +34,9 @@
         private $capacity;
 
         /**
-         * @ORM\column(type="boolean", options={"default" : false})
+         * @ORM\ManyToMany(targetEntity="Tag")
          */
-        private $event;
+        private $tags;
 
         public function getId() { return $this->id; }
         public function getOpenTime() { return $this->opentime; }
@@ -44,23 +45,33 @@
         public function getCapacity() { return $this->capacity; }
         public function isEvent() { return false; }
         public function isPlace() { return false; }
+        
+        public function setOpenTime($v) { $this->opentime = $v; }
+        public function setCloseTime($v) { $this->closetime = $v; }
+        public function setAdmission($v) { $this->admission = $v; }
+        public function setCapacity($v) { $this->capacity = $v; }
 
-        public function setAdmission($value) {
-            if(!$value) { throw new Exception("A value expected!"); }
-            else if($value < 0) { throw new Exception("Invalid admission value!"); }
-            else { $admission = $value; }
-        }
+        // addTag
     }
 
     /** @ORM\entity */
     class Event extends Item
     {
         /**
-         * @ORM\column(type="string", options={"default" : 'casual'})
+         * @ORM\column(type="string", options={"default" : "casual"})
          */
         private $dresscode;
 
+        /**
+         * @ORM\ManyToOne(targetEntity="Place", inversedBy="events")
+         */
+        private $location;
+        
         public function getDresscode() { return $this->dresscode; }
+        public function getLocation() { return $this->location; }
+
+        public function setDresscode($v) { $this->dresscode = $v; }
+        public function setLocation($v) { $this->location = $v; }
     }
 
     /** @ORM\entity */
@@ -75,31 +86,54 @@
          */
         private $y;
 
+        /**
+         * @ORM\column(type="boolean", options={"default" : false})
+         */
+        private $outside;
+
+        /**
+         * @ORM\OneToMany(targetEntity="Event", mappedBy="location", cascade={"ALL"}, indexBy="id")
+         */
+        private $events;
+
         public function getX() { return $this->x; }
         public function getY() { return $this->y; }
+        public function getOutside() { return $this->outside; }
+        public function getInside() { return !$this->outside; }
+
+        public function setX($v) { $this->x = $v; }
+        public function setY($v) { $this->y = $v; }
+        public function setOutside($v = true) { $this->outside = $v; }
+        public function setInside($v = true) { $this->outside = !$v; }
+
+        // addEvent
     }
 
     /** @ORM\entity */
-    class Favourite extends \Kdyby\Doctrine\Entities\BaseEntity {
+    class Tag
+    {
         /**
-         * @ORM\id @ORM\column(type="integer")
+         * @ORM\Id
+         * @ORM\column(type="integer")
          * @ORM\generatedValue
          */
-        private $id;
+        protected $id;
 
-        private $user;
-    }
-
-    /** @ORM\entity */
-    class User extends \Kdyby\Doctrine\Entities\BaseEntity {
         /**
          * @ORM\column(type="string")
          */
-        private $mail;
-
         private $name;
-        private $surname;
 
-        public function getMail() { return $this->mail; }
+        /**
+         * @ORM\ManyToMany(targetEntity="Item", mappedBy="tags")
+         */
+        private $tagged;
+
+        public function getId() { return $this->id; }
+        public function getName() { return $this->name; }
+
+        public function setName($v) { $this->name = $v; }
     }
+
+
 ?>
