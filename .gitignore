@@ -6,6 +6,7 @@ temp/*
 !web.config
 vendor/*
 composer.phar
+composer.lock
 
 # User-specific stuff
 .idea/*
