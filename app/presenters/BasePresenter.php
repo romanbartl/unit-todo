@@ -23,8 +23,7 @@ class BasePresenter extends \Nette\Application\UI\Presenter
     {
         $user = $this->getUser();
 
-        if ($user->isLoggedIn())
-        {
+        if ($user->isLoggedIn()) {
             $this->redirect('Homepage:');
         }
     }
@@ -48,7 +47,7 @@ class BasePresenter extends \Nette\Application\UI\Presenter
 
     public function handleFacebookCookie()
     {
-        if($this->isAjax()) {
+        if ($this->isAjax()) {
             try {
                 $token = $this->facebookLogin->getAccessTokenFromCookie();
                 $data = $this->facebookLogin->getMe($token, ['id', 'email']);
@@ -69,19 +68,27 @@ class BasePresenter extends \Nette\Application\UI\Presenter
     {
         $form = new \Nette\Application\UI\Form;
 
-        $form->addEmail('email')->setAttribute('class', 'form-control')->setAttribute('placeholder', 'Email');
-        $form->addPassword('passwd')->setAttribute('class', 'form-control')->setAttribute('placeholder', 'Heslo');
+        $form->addEmail('email')->setAttribute('class', 'form-control')->setAttribute('placeholder', 'Email')
+            ->setRequired('Zadejde email');
+        $form->addPassword('passwd')->setAttribute('class', 'form-control')->setAttribute('placeholder', 'Heslo')
+            ->setRequired('Zadejde email');
 
         $form->addSubmit('login', 'Přihlásit')->setAttribute('class', 'btn btn-primary btn-block mojeButton');
-        $form->onSuccess[] = [$this, 'registrationFormSucceeded'];
+        $form->onSuccess[] = array($this, 'loginFormSucceeded');
         return $form;
+    }
+
+
+    public function loginFormSucceeded($form, $values)
+    {
+        $this->getUser()->login($values['email'], $values['passwd']);
+        $this->redirect('Homepage:');
     }
 
 
     protected function createComponentRegistrationForm()
     {
         $form = new \Nette\Application\UI\Form;
-        $form->getElementPrototype()->class('ajax');
 
         $form->addEmail('email')->setAttribute('class', 'form-control')->setAttribute('placeholder', 'Email')
             ->setRequired('Zadejde email');
@@ -103,24 +110,32 @@ class BasePresenter extends \Nette\Application\UI\Presenter
 
     public function registrationFormSucceeded($form, $values)
     {
-        //if($this->isAjax()) {
-            if (!$this->UserFactory->register($values['email'], $values['passwd'])) {
-                $this->flashMessage('Uživatel s tímto emailem již existuje', 'danger');
-                $this->redrawControl('flashMessages');
-            }
-        //}
+        if (!$this->UserFactory->register($values['email'], $values['passwd'])) {
+            $this->flashMessage('Uživatel s tímto emailem již existuje', 'danger');
+            $this->redrawControl('flashMessages');
+        }
+
+        $this->redirect('Homepage:');
     }
 
     public function renderRegister()
     {
-        if($this->isAjax()) {
+        if ($this->isAjax()) {
+            if ($this->getUser()->isLoggedIn()) {
+                $this->redirect('Homepage:');
+            }
+
             $this->redrawControl('contentSnippet');
         }
     }
 
     public function renderLogin()
     {
-        if($this->isAjax()) {
+        if ($this->isAjax()) {
+            if ($this->getUser()->isLoggedIn()) {
+                $this->redirect('Homepage:');
+            }
+
             $this->redrawControl('contentSnippet');
         }
     }

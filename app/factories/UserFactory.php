@@ -4,7 +4,6 @@ namespace App;
 
 use Doctrine\ORM\EntityManager;
 
-
 class UserFactory
 {
     /**
