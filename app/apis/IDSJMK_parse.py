@@ -1,24 +1,16 @@
 #!/usr/bin/python3
 
-#import MySQLdb as mysql
 import re
 import requests
 from html.parser import HTMLParser
 import sys
 
-# Open database connection
-#db = mysql.connect(host="localhost", user="unit", passwd="unitbrno", db="unit")
+# database
+import pydbase as PyDBase
+db = PyDBase.DB()
 
-# prepare a cursor object using cursor() method
-#cursor = db.cursor()
 
-# execute SQL query using execute() method.
-#cursor.execute("SELECT VERSION()")
-
-# Fetch a single row using fetchone() method.
-#data = cursor.fetchone()
-#print "Database version : %s " % data
-
+# read arguments
 start = u''
 end = u''
 date = u''
@@ -38,16 +30,16 @@ for n in range(1,len(sys.argv)-1, 2):
         exit()
     
 
-#print(start + ' -> ' + end + ' @ ' + date + ', ' + time)
+
+# get HTML
 urlrequest = 'https://www.idsjmk.cz/spojeni.aspx?f='+ start + '&t=' + end + '&date=' + date + '&time=' + time
-
-#print(urlrequest)
-
-
 result = requests.get(urlrequest)
 result.encoding = 'utf-8'
 html = result.text.replace("windows-1250", "utf-8")
 
+
+
+# HTML parse
 table = ['time', 'date', 'stop', 'arr', 'dep', 'zone', 'link']
 class MyHTMLParser(HTMLParser):
     def __init__(self):
@@ -110,9 +102,13 @@ class MyHTMLParser(HTMLParser):
             self.d[self.key] = data
             self.key = ''
 
+# instantiate HTML parser
 parser = MyHTMLParser()
 parser.feed(html)
 
+
+
+# read the data
 lld = []
 for route in parser.lld:
     ld = []
@@ -133,15 +129,13 @@ for route in parser.lld:
     lld.append(ld)
 
 
+
+# generate SQL
 for n in lld:
     for d in n:
                                                                                                                              # MHD id # init ID    # name          # start          # starttime         # end          # endtime
         insertion = "INSERT INTO `route` (`type_id`, `initial_id`, `name`, `start`, `starttime`, `end`, `endtime`) VALUES ("+str(1)+","+str(1)+",'"+d['name']+"','"+d['start']+"','"+d['starttime']+"','"+d['end']+"','"+d['endtime']+"');"
         print(insertion)
-        #cursor.execute(insertion)
-        #print(insertion, end="\n")
-#cursor.execute("INSERT INTO Route VALUES (")
 
-# disconnect from server
-#db.close()
+
 
