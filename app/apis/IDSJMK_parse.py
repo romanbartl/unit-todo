@@ -38,10 +38,10 @@ for n in range(1,len(sys.argv)-1, 2):
         exit()
     
 
-print(start + ' -> ' + end + ' @ ' + date + ', ' + time)
+#print(start + ' -> ' + end + ' @ ' + date + ', ' + time)
 urlrequest = 'https://www.idsjmk.cz/spojeni.aspx?f='+ start + '&t=' + end + '&date=' + date + '&time=' + time
 
-print(urlrequest)
+#print(urlrequest)
 
 
 result = requests.get(urlrequest)
@@ -56,6 +56,7 @@ class MyHTMLParser(HTMLParser):
         self.lld = []
         self.i = -1
         self.key = ''
+        self.link = False
         super().__init__()
 
     def handle_starttag(self, tag, attrs):
@@ -76,6 +77,7 @@ class MyHTMLParser(HTMLParser):
                 self.i = 0
         
         elif (tag == 'td') and (self.i != -1):
+            self.link = False
             self.key = table[self.i]
             self.i += 1
         
@@ -99,6 +101,10 @@ class MyHTMLParser(HTMLParser):
 
     def handle_data(self, data):
         if self.key != '':
+            if self.key == 'link':
+                if not self.link:
+                    self.link = True
+                    return
             if (data == '\xa0') or (data.strip() == '') or (data == '>'):
                 data = ''
             self.d[self.key] = data
@@ -112,41 +118,25 @@ for route in parser.lld:
     ld = []
     d = {}
     for it in route:
-        # only departing, merge with following
-        if (it['arr'] == '') and (it['dep'] != ''):
-            d['starttime'] = it['dep']
-            d['start'] = it['stop']
-            d['startzone'] = it['zone']
 
-        
-        # only arriving, merge with previous
-        elif (it['arr'] != '') and (it['dep'] == ''):
+        if (it['arr'] != ''):
             d['endtime'] = it['arr']
             d['end'] = it['stop']
             d['endzone'] = it['zone']
             ld.append(d)
             d = {}
-            d['starttime'] = it['dep']
-            d['start'] = it['stop']
-            d['startzone'] = it['zone']
-        
-        # change, split into two
-        else:
-            d['endtime'] = it['arr']
-            d['end'] = it['stop']
-            d['endzone'] = it['zone']
-            ld.append(d)
-            d = {}
-            d['starttime'] = it['dep']
-            d['start'] = it['stop']
-            d['startzone'] = it['zone']
+
+        d['starttime'] = it['dep']
+        d['start'] = it['stop']
+        d['startzone'] = it['zone']
+        d['name'] = it['link']
     lld.append(ld)
 
 
 for n in lld:
     for d in n:
-                                                   # MHD id # init ID# name # start          # starttime         # end          # endtime
-        insertion = "INSERT INTO Route VALUES ("+str(1)+","+str(1)+",'','"+d['start']+"','"+d['starttime']+"','"+d['end']+"','"+d['endtime']+"');"
+                                                   # MHD id # init ID    # name          # start          # starttime         # end          # endtime
+        insertion = "INSERT INTO Route VALUES ("+str(1)+","+str(1)+",'"+d['name']+"','"+d['start']+"','"+d['starttime']+"','"+d['end']+"','"+d['endtime']+"');"
         print(insertion)
         #cursor.execute(insertion)
         #print(insertion, end="\n")
