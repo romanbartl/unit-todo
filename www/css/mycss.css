@@ -20,6 +20,19 @@
     margin-right: 35px;
 }
 
+.sidebar-button:hover {
+    color: #343a40;
+}
+
+.header-button {
+    font-size:40px;
+    color: #7386D5;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+.header-button:hover {
+    color: #626ed5;
+}
 
 body {
     font-family: 'Poppins', sans-serif;
