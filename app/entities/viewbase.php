@@ -100,7 +100,7 @@
         public function getEnd() { return $this->end; }
         public function getEndTime() { return $this->endtime; }
 
-        public function setName($v) { $this->name = $name; }
+        public function setName($v) { $this->name = $v; }
         public function setInitial($v) { $this->initial = $v; }
         public function setStart($v) { $this->start = $v; }
         public function setStartTime($v) { $this->starttime = $v; }
