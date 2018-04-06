@@ -8,12 +8,12 @@ use Ivory\GoogleMap\Helper\Builder\MapHelperBuilder;
 use Ivory\GoogleMap\Base\Coordinate;
 use Ivory\GoogleMap\Event\Event;
 
-
 class HomepagePresenter extends BasePresenter
 {
     public function beforeRender()
     {
         $map = new Map();
+
         $map->setVariable('map');
 
         $map->setAutoZoom(false);
@@ -44,9 +44,25 @@ class HomepagePresenter extends BasePresenter
             'function(){if (map.getZoom() < 13) map.setZoom(13);}'
         );
 
+        $idle = new Event(
+            $map->getVariable(),
+            'idle',
+            'function(){
+            var stylers = [ {
+                featureType: "poi",
+                elementType: "labels.icon",
+                stylers: [
+                  { visibility: "off" }
+                ]
+              }
+            ];
+    map.setOptions({styles: stylers});}'
+        );
+
         $map->getEventManager()->addDomEvent($dragend);
         $map->getEventManager()->addDomEvent($dragstart);
         $map->getEventManager()->addDomEvent($zoom);
+        $map->getEventManager()->addDomEvent($idle);
 
         $mapHelper = MapHelperBuilder::create()->build();
         $apiHelper = ApiHelperBuilder::create()

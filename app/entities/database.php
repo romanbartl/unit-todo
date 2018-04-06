@@ -78,13 +78,19 @@
     class Place extends Item
     {
         /**
-         * @ORM\column(type="decimal", options={"default" : 0})
+         * @ORM\column(type="string", options={"default" : 0})
          */
-        private $x;
+        private $location_lat;
+
+        /**
+         * @ORM\column(type="string", options={"default" : 0})
+         */
+        private $location_long;
+
         /**
          * @ORM\column(type="decimal", options={"default" : 0})
          */
-        private $y;
+        private $rating;
 
         /**
          * @ORM\column(type="boolean", options={"default" : false})
