@@ -4,60 +4,9 @@
 
     use Doctrine\ORM\Mapping as ORM;
 
+    /** @ORM\Entity */
     class Point {
 
-        /**
-         * @ORM\Id
-         * @ORM\column(type="integer")
-         * @ORM\generatedValue
-         */
-        //protected $id;
-
-        /**
-         * @ORM\OneToOne(targetEntity="Point")
-         */
-        //private $follower;
-    
-        /**
-         * @ORM\ManyToOne(targetEntity="Item")
-         */
-        //private $item;
-
-        /**
-         * @ORM\OneToOne(targetEntity="Route")
-         */
-        //private $route;
-
-        /**
-         * @ORM\column(type="time")
-         */
-        //private $starttime;
-
-        /**
-         * @ORM\column(type="time")
-         */
-        //private $endtime;
-        
-
-        public function getId() { return $this->id; }
-        public function getFollower() { return $this->follower; }
-        public function getItem() { return $this->item; }
-        public function getTransport() { return $this->transport; }
-        public function getPlan() { return $this->plan; }
-        public function getStartTime() { return $this->starttime; }
-        public function getEndTime() { return $this->endtime; }
-        
-        public function setFollower($v) { $this->follower = $v; }
-        public function setItem($v) { $this->item = $v; }
-        public function setTransport($v) { $this->transport = $v; }
-        public function setPlan($v) { $this->plan; }
-        public function setStartTime($v) { $this->starttime = $v; }
-        public function setEndTime($v) { $this->endtime = $v; }
-
-    }
-
-    class Route {
-    
         /**
          * @ORM\Id
          * @ORM\column(type="integer")
@@ -66,32 +15,61 @@
         protected $id;
 
         /**
-         * @ORM\column(type="string")
+         * @ORM\OneToOne(targetEntity="Point")
          */
-        private $name;
+        private $follower;
+    
         /**
-         * @ORM\ManyToOne(targetEntity="TravelType")
+         * @ORM\ManyToOne(targetEntity="Item")
          */
-        private $type;
+        private $item;
 
         /**
-         * @ORM\ManyToOne(targetEntity="Point")
+         * @ORM\Column(type="decimal", nullable=true, options={"default" : 0})
          */
-        private $initial;
+        private $lati;
+        
+        /**
+         * @ORM\Column(type="decimal", nullable=true, options={"default" : 0})
+         */
+        private $longi;
 
+        /**
+         * @ORM\OneToOne(targetEntity="TravelType",)
+         */
+        private $typeOfDepart;
+
+        /**
+         * @ORM\column(type="time")
+         */
+        private $starttime;
+
+        /**
+         * @ORM\column(type="time")
+         */
+        private $endtime;
         
 
-
-
         public function getId() { return $this->id; }
-        public function getName() { return $this->name; }
-        public function getInitial() { return $this->initial; }
-
-        public function setName($v) { $this->name = $v; }
-        public function setInitial($v) { $this->initial = $v; }
+        public function getFollower() { return $this->follower; }
+        public function getItem() { return $this->item; }
+        public function getTypeOfDepart() { return $this->typeOfDepart; }
+        public function getStartTime() { return $this->starttime; }
+        public function getEndTime() { return $this->endtime; }
+        public function getLongi() { return $this->longi; }
+        public function getLati() { return $this->lati; }
+        
+        public function setFollower($v) { $this->follower = $v; }
+        public function setItem($v) { $this->item = $v; }
+        public function setTypeOfDepart($v) { $this->typeOfDepart = $v; }
+        public function setStartTime($v) { $this->starttime = $v; }
+        public function setEndTime($v) { $this->endtime = $v; }
+        public function setLati($v) { $this->lati = $v; }
+        public function setLongi($v) { $this->longi = $v; }
 
     }
 
+    /** @ORM\Entity */
     class Plan {
 
         /**
@@ -102,14 +80,9 @@
         protected $id;
 
         /**
-         * @ORM\OneToOne(targetEntity="Point", mappedBy="plan")
+         * @ORM\OneToOne(targetEntity="Point")
          */
         private $begin;
-
-        /**
-         * @ORM\ManyToOne(targetEntity="TravelType")
-         */
-        private $preferred;
 
 
         public function getId() { return $this->id; }
@@ -119,7 +92,7 @@
 
     }
 
-
+    /** @ORM\Entity */
     class TravelType {
         
         /**
@@ -133,7 +106,6 @@
          * @ORM\column(type="string")
          */
         private $type;
-
 
 
         public function getType() { return $this->type; }
