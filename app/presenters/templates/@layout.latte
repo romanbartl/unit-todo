@@ -32,8 +32,13 @@
         <div class="form-inline navbar-right">
             <a n:href="Homepage:"><span class="header-button"></span><i
                         class="fas fa-home my-margin-right-long header-button"></i></a>
+            {if ($user->isLoggedIn())}
+            <a n:href="Homepage:account"><span class="header-button"></span><i
+                        class="fas fa-user-circle my-margin-right header-button"></i></a>
+            {else}
             <a n:href="Homepage:login"><span class="header-button"></span><i
                         class="fas fa-user-circle my-margin-right header-button"></i></a>
+            {/if}
         </div>
     </div>
 </nav>
