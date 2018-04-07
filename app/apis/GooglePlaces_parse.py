@@ -21,9 +21,14 @@ obj = sys.argv[2]
 rq = 'https://maps.googleapis.com/maps/api/place/textsearch/xml?query='+obj+'+in+Brno&key=AIzaSyDfotL66FGoibMafL-c8oNk8joyFtpcc6U'
 i = 0
 while True:
-    #print(rq)
+    print(rq)
     file = urllib.request.urlopen(rq)
+
+    print(file.read())
+    break
+
     root = ET.fromstring(file.read())
+
     # check
     if root[0].text != 'OK':
         print("Corrupted XML: " + root[0].text, file=sys.stderr)
@@ -76,8 +81,10 @@ while True:
                 print(genTagAssignment)
                 db.execute(genTagAssignment)
 
-    break
-    #rq = 'https://maps.googleapis.com/maps/api/place/textsearch/xml?pagetoken='+root[-1].text+'&key=AIzaSyDfotL66FGoibMafL-c8oNk8joyFtpcc6U'
+    #break
+    print(root[-1].tag)
+    rq = r'https://maps.googleapis.com/maps/api/place/textsearch/xml?pagetoken='+root[-1].text+r'&key=AIzaSyDfotL66FGoibMafL-c8oNk8joyFtpcc6U'
+    #print(rq)
 
 #print(i)
 
