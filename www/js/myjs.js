@@ -13,14 +13,13 @@ $(document).ready(function () {
 * */
 $(document).ready(function(){
     $('[data-toggle="restaurant"]').tooltip();
-
-    $('[data-toggle="place"]').tooltip();
-
     $('[data-toggle="mhd"]').tooltip();
-
-    $('[data-toggle="bus"]').tooltip();
-
-    $('[data-toggle="tram"]').tooltip();
+    $('[data-toggle="place"]').tooltip();
+    $('[data-toggle="fun"]').tooltip();
+    $('[data-toggle="shop"]').tooltip();
+    $('[data-toggle="walk"]').tooltip();
+    $('[data-toggle="car"]').tooltip();
+    $('[data-toggle="mhdBrno"]').tooltip();
 });
 
 /*
@@ -48,15 +47,12 @@ function addAnotherBar() {
 * */
 function delAnotherBar() {
     $("#"+count).remove();
-
-
     count = count - 1;
     if (count == 0){
         document.getElementById('dylytko').style.display = 'none';
     } else {
         document.getElementById('additko').style.display = 'block';
     }
-
 }
 
 /*
@@ -103,27 +99,67 @@ function placeClicked() {
         //TODO place is checked in!
     }
 }
-function busClicked() {
-    $('[data-toggle="bus"]').tooltip("hide");
-    if (bus){
-        document.getElementById('bus').style.backgroundColor = '#7386D5';
-        bus = false;
-        //TODO bus is NOT checked in BUS MOVES!
+function funClicked() {
+    $('[data-toggle="fun"]').tooltip("hide");
+    if (fun){
+        document.getElementById('fun').style.backgroundColor = '#7386D5';
+        fun = false;
+        //TODO fun is NOT checked in!
     } else {
-        document.getElementById('bus').style.backgroundColor = '#6575b8';
-        bus = true;
-        //TODO bus is checked in BUS MOVES!
+        document.getElementById('fun').style.backgroundColor = '#6575b8';
+        fun = true;
+        //TODO fun is checked in!
     }
 }
-function tramClicked() {
-    $('[data-toggle="tram"]').tooltip("hide");
-    if (tram){
-        document.getElementById('tram').style.backgroundColor = '#7386D5';
-        tram = false;
-        //TODO tram is NOT checked in TRAM MOVES!
+function shopClicked() {
+    $('[data-toggle="shop"]').tooltip("hide");
+    if (shop){
+        document.getElementById('shop').style.backgroundColor = '#7386D5';
+        shop = false;
+        //TODO shop is NOT checked in!
     } else {
-        document.getElementById('tram').style.backgroundColor = '#6575b8';
-        tram = true;
-        //TODO tram is checked in TRAM MOVES!
+        document.getElementById('shop').style.backgroundColor = '#6575b8';
+        shop = true;
+        //TODO shop is checked in!
+    }
+}
+
+
+
+/*
+* Toggle buttons to pick way of transport
+* */
+function walkClicked() {
+    $('[data-toggle="walk"]').tooltip("hide");
+    if (walk){
+        document.getElementById('walk').style.backgroundColor = '#7386D5';
+        walk = false;
+        //TODO walk is NOT checked in!
+    } else {
+        document.getElementById('walk').style.backgroundColor = '#6575b8';
+        walk = true;
+        //TODO walk is checked in!
+    }
+}function carClicked() {
+    $('[data-toggle="car"]').tooltip("hide");
+    if (car){
+        document.getElementById('car').style.backgroundColor = '#7386D5';
+        car = false;
+        //TODO car is NOT checked in!
+    } else {
+        document.getElementById('car').style.backgroundColor = '#6575b8';
+        car = true;
+        //TODO car is checked in!
+    }
+}function mhdBrnoClicked() {
+    $('[data-toggle="mhdBrno"]').tooltip("hide");
+    if (mhdBrno){
+        document.getElementById('mhdBrno').style.backgroundColor = '#7386D5';
+        mhdBrno = false;
+        //TODO mhdBrno is NOT checked in!
+    } else {
+        document.getElementById('mhdBrno').style.backgroundColor = '#6575b8';
+        mhdBrno = true;
+        //TODO mhdBrno is checked in!
     }
 }
