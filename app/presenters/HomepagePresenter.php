@@ -2,17 +2,21 @@
 
 namespace App\Presenters;
 
+use App\Item;
 use Ivory\GoogleMap\Map;
 use Ivory\GoogleMap\Helper\Builder\ApiHelperBuilder;
 use Ivory\GoogleMap\Helper\Builder\MapHelperBuilder;
 use Ivory\GoogleMap\Base\Coordinate;
 use Ivory\GoogleMap\Event\Event;
+use Ivory\GoogleMap\Overlay\InfoWindow;
 use Ivory\GoogleMap\Overlay\Marker;
 
 class HomepagePresenter extends BasePresenter
 {
     public function beforeRender()
     {
+        $places = $this->EntityManager->getRepository(Item::class)->findAll();
+
         $map = new Map();
 
         $map->setVariable('map');
@@ -24,9 +28,13 @@ class HomepagePresenter extends BasePresenter
         $map->setStylesheetOption('width', '100%');
         $map->setStylesheetOption('height', '100%');
 
-        $marker = new Marker($map->getCenter());
-        $marker->setVariable("test");
-        $map->getOverlayManager()->addMarker($marker);
+        foreach ($places as $place) {
+            $marker = new Marker(new Coordinate($place->getLati(), $place->getLongi()));
+            $infoWindow = new InfoWindow("<strong>" . $place->getName() . "</strong><br>" . $place->getDescription() );
+            $marker->setInfoWindow($infoWindow);
+            $map->getOverlayManager()->addMarker($marker);
+        }
+
 
         $dragend = new Event(
             $map->getVariable(),
