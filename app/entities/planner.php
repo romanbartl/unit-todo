@@ -68,4 +68,15 @@
             }
         
         }
+
+
+        public function Filter()
+        {
+            $sql = "SELECT id FROM tag NATURAL JOIN item_tag WHERE name='cafe'";
+
+            $em = $this->getDoctrine()->getManager();
+            $stmt = $this->EntityManager->getConnection()->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        }
     }
