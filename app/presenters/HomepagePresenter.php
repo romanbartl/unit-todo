@@ -15,7 +15,7 @@ class HomepagePresenter extends BasePresenter
 {
     public function beforeRender()
     {
-        $places = $this->EntityManager->getRepository(Item::class)->findAll();
+        $this->template->places = $this->EntityManager->getRepository(Item::class)->findAll();
 
         $map = new Map();
 
@@ -28,13 +28,13 @@ class HomepagePresenter extends BasePresenter
         $map->setStylesheetOption('width', '100%');
         $map->setStylesheetOption('height', '100%');
 
-        foreach ($places as $place) {
+        /*foreach ($places as $place) {
             $marker = new Marker(new Coordinate($place->getLati(), $place->getLongi()));
-            $infoWindow = new InfoWindow("<strong>" . $place->getName() . "</strong><br>" . $place->getDescription() );
+            $infoWindow = new InfoWindow($place->getName());
+            $infoWindow->setAutoClose(true);
             $marker->setInfoWindow($infoWindow);
             $map->getOverlayManager()->addMarker($marker);
-        }
-
+        }*/
 
         $dragend = new Event(
             $map->getVariable(),
@@ -69,8 +69,9 @@ class HomepagePresenter extends BasePresenter
                 ]
               }
             ];
-    map.setOptions({styles: stylers});
-    getBusMarkers();}'
+        map.setOptions({styles: stylers});
+        getBusMarkers();
+        placeMarkers();}'
         );
 
         $map->getEventManager()->addDomEvent($dragend);

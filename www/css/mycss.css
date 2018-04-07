@@ -15,16 +15,16 @@
 }
 
 .map-filters {
-    height: 40px;
+    height: 60px;
 
 }
 
 .map-filters-button {
     float:left;
-    margin-top: 10px;
-    margin-left: 26px;
-    margin-right: 23px;
-
+    padding: 20px 20px 20px 20px;
+    margin-left: 8px;
+    background-color: #6575b8ff;
+    cursor: pointer;
 }
 
 .sidebar-button {
