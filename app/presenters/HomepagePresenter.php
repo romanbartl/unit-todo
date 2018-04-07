@@ -10,11 +10,16 @@ use Ivory\GoogleMap\Base\Coordinate;
 use Ivory\GoogleMap\Event\Event;
 use Ivory\GoogleMap\Overlay\InfoWindow;
 use Ivory\GoogleMap\Overlay\Marker;
+use Ivory\GoogleMap\Place\Autocomplete;
+use Ivory\GoogleMap\Helper\Builder\PlaceAutocompleteHelperBuilder;
 
 class HomepagePresenter extends BasePresenter
 {
     public function beforeRender()
     {
+
+        $autocomplete = new Autocomplete();
+
         $places = $this->EntityManager->getRepository(Item::class)->findAll();
 
         $map = new Map();
@@ -30,11 +35,11 @@ class HomepagePresenter extends BasePresenter
 
         foreach ($places as $place) {
             $marker = new Marker(new Coordinate($place->getLati(), $place->getLongi()));
-            $infoWindow = new InfoWindow("<strong>" . $place->getName() . "</strong><br>" . $place->getDescription() );
+            $infoWindow = new InfoWindow($place->getName());
+            $infoWindow->setAutoClose(true);
             $marker->setInfoWindow($infoWindow);
             $map->getOverlayManager()->addMarker($marker);
         }
-
 
         $dragend = new Event(
             $map->getVariable(),
@@ -78,6 +83,7 @@ class HomepagePresenter extends BasePresenter
         $map->getEventManager()->addDomEvent($zoom);
         $map->getEventManager()->addDomEvent($idle);
 
+        $autocompleteHelper = PlaceAutocompleteHelperBuilder::create()->build();
         $mapHelper = MapHelperBuilder::create()->build();
         $apiHelper = ApiHelperBuilder::create()
             ->setKey($this->context->parameters["google"]["apiKey"])
@@ -85,6 +91,7 @@ class HomepagePresenter extends BasePresenter
             ->build();
 
         $this->template->mapHelper = $mapHelper->render($map);
-        $this->template->mapApiHelper = $apiHelper->render([$map]);
+        $this->template->autoComplete = $autocompleteHelper->render($autocomplete);
+        $this->template->mapApiHelper = $apiHelper->render([$autocomplete, $map]);
     }
 }
