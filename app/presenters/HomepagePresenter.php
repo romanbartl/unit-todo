@@ -150,6 +150,9 @@ class HomepagePresenter extends BasePresenter
         $data[] = $this->sessionSection->planner[$index][1];
         $data[] = $this->sessionSection->planner[$index][2];
 
+        $this->sessionSection->totalDistance -= $this->sessionSection->planner[$index][3];
+        $this->sessionSection->totalTime -= $this->sessionSection->planner[$index][4];
+
         $route = $this->getTransportTime($typ, $this->sessionSection->planner[$index][1], $this->sessionSection->planner[$index][2],
             $this->sessionSection->planner[$index + 1][1], $this->sessionSection->planner[$index + 1][2]);
 
@@ -157,7 +160,13 @@ class HomepagePresenter extends BasePresenter
         $data[] = $route[1];
         $data[] = $typ;
 
+        $this->sessionSection->totalDistance += $route[0];
+        $this->sessionSection->totalTime += $route[1];
+
         $this->sessionSection->planner[$index] = $data;
+
+        $this->template->totalDistance = $this->sessionSection->totalDistance;
+        $this->template->totalTime = $this->sessionSection->totalTime;
         $this->template->planner = $this->sessionSection->planner;
         $this->redrawControl('planner');
     }
