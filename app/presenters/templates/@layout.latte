@@ -32,8 +32,15 @@
         <div class="form-inline navbar-right">
             <a n:href="Homepage:"><span class="header-button"></span><i
                         class="fas fa-home my-margin-right-long header-button"></i></a>
-            <a n:href="Homepage:login"><span class="header-button"></span><i
-                        class="fas fa-user-circle my-margin-right header-button"></i></a>
+            {snippet loginButton}
+                {if ($user->isLoggedIn())}
+                    <a n:href="Homepage:account" class="ajax" onclick="toAccount()"><span class="header-button"></span><i
+                                class="fas fa-user-circle my-margin-right header-button"></i></a>
+                {else}
+                    <a n:href="Homepage:login" class="ajax" onclick="toLogin2()"><span class="header-button"></span><i
+                                class="fas fa-user-circle my-margin-right header-button"></i></a>
+                {/if}
+            {/snippet}
         </div>
     </div>
 </nav>
@@ -44,6 +51,7 @@
         {snippet contentSnippet}
             {include content}
         {/snippet}
+
     </nav>
 
 
@@ -69,9 +77,6 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-
-<script src="{$basePath}/js/myURL.js"></script>
-
 <script src="{$basePath}/js/nette.ajax.js"></script>
 <script src="{$basePath}/js/myjs.js"></script>
 <script src="{$basePath}/js/myURL.js"></script>
@@ -79,9 +84,6 @@
     $(function () {
         $.nette.init();
     });
-
-    $.nette.ajax(payload.redirect);
-
 </script>
 <script>
     function fbAfterLogin() {
@@ -92,9 +94,22 @@
 
 </script>
 
+<script>
+    $(function () {
+
+        $('a.ajax').live('click', function () {
+            $.get(this.href);
+            return false; // aby se nepreslo na novou adresu
+        });
+    });
+</script>
+{snippet fbSnippet}
 <script src="//connect.facebook.net/en_US/all.js"></script>
 <script>
     var preLocation;
+    var infowindow = null;
+    var mhdMarkers = [];
+    var mhdInterval;
 
     FB.init({
         appId: '356707758145198',
@@ -104,7 +119,10 @@
         channelUrl: 'https://unitbrno.psopf.cz/',
         oauth: true
     });
+</script>
+{/snippet}
 
+<script n:syntax="off">
     function savePreLocation() {
         preLocation = map.getCenter();
     }
@@ -126,6 +144,76 @@
         var center = map.getCenter();
         google.maps.event.trigger(map, "resize");
         map.setCenter(center);
+    }
+
+    function makeInfoWindowEvent(map, infowindow, contentString, marker) {
+        google.maps.event.addListener(map, "click", function (event) {
+            infowindow.close();
+        });
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent(contentString);
+            infowindow.open(map, marker);
+        });
+    }
+
+    function getBusMarkers() {
+        if (typeof mhdInterval != "number") {
+            getMhdMarkers();
+            mhdInterval = setInterval(function () {
+                getMhdMarkers();
+            }, 5000);
+        }
+    }
+
+    function getMhdMarkers() {
+        jQuery.ajax({
+            url: "https://unitbrno.psopf.cz/Api/mhd",
+            type: "GET",
+
+            contentType: 'application/json; charset=utf-8',
+            success: function (resultData) {
+                mhdMarkers.forEach(function (marker) {
+                    marker.setMap(null);
+                });
+
+                mhdMarkers = [];
+
+                data = jQuery.parseJSON(resultData);
+
+                data.forEach(function (entry) {
+                    if (entry.route >= 1 && entry.route <= 20) {
+                        mhdName = "Tramvaj";
+                        image = "train";
+                    }
+                    else if (entry.route >= 20 && entry.route <= 39) {
+                        mhdName = "Trolejbus";
+                        image = "bus";
+                    }
+                    else {
+                        mhdName = "Bus";
+                        image = "bus";
+                    }
+
+                    myLatLng = {lat: entry.latitude, lng: entry.longitude};
+
+                    marker = new google.maps.Marker({
+                        position: myLatLng,
+                        icon: "https://unitbrno.psopf.cz/images/" + image + ".png"
+                    });
+
+                    infowindow = new google.maps.InfoWindow();
+                    makeInfoWindowEvent(map, infowindow, "<strong>" + mhdName + " č. " + entry.route + "</strong><br>" + entry.headsign, marker);
+
+                    marker.setMap(map);
+                    mhdMarkers.push(marker);
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+            },
+
+            timeout: 1000,
+        });
     }
 </script>
 

@@ -7,6 +7,7 @@ use Ivory\GoogleMap\Helper\Builder\ApiHelperBuilder;
 use Ivory\GoogleMap\Helper\Builder\MapHelperBuilder;
 use Ivory\GoogleMap\Base\Coordinate;
 use Ivory\GoogleMap\Event\Event;
+use Ivory\GoogleMap\Overlay\Marker;
 
 class HomepagePresenter extends BasePresenter
 {
@@ -22,6 +23,10 @@ class HomepagePresenter extends BasePresenter
 
         $map->setStylesheetOption('width', '100%');
         $map->setStylesheetOption('height', '100%');
+
+        $marker = new Marker($map->getCenter());
+        $marker->setVariable("test");
+        $map->getOverlayManager()->addMarker($marker);
 
         $dragend = new Event(
             $map->getVariable(),
@@ -56,7 +61,8 @@ class HomepagePresenter extends BasePresenter
                 ]
               }
             ];
-    map.setOptions({styles: stylers});}'
+    map.setOptions({styles: stylers});
+    getBusMarkers();}'
         );
 
         $map->getEventManager()->addDomEvent($dragend);
