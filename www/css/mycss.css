@@ -1,15 +1,15 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
-
-.search-bar.custom-text{
-    height: auto; !important;
+.search-bar.custom-text {
+    height: auto;
+!important;
 }
 
-.ultra-padding{
+.ultra-padding {
     padding: 40px 20px 0px 20px;
 }
 
-.my-margin-right{
+.my-margin-right {
     margin-right: 60px !important;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .map-filters-button {
-    float:left;
+    float: left;
     padding: 20px 20px 20px 20px;
     margin-left: 8px;
     background-color: #6575b8ff;
@@ -42,7 +42,7 @@
 }
 
 .transport-filters-button {
-    float:left;
+    float: left;
     padding: 20px 20px 20px 20px;
     margin-left: 8px;
     background-color: #6575b8ff;
@@ -50,7 +50,7 @@
 }
 
 .sidebar-button {
-    float:left;
+    float: left;
     margin-top: 30px;
     margin-left: 38px;
     margin-right: 35px;
@@ -61,16 +61,17 @@
 }
 
 .header-button {
-    font-size:40px;
+    font-size: 40px;
     color: #7386D5;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
 }
+
 .header-button:hover {
     color: #626ed5;
 }
 
-.search-bar{
+.search-bar {
     height: 50px;
     display: flex;
     align-items: center;
@@ -79,7 +80,7 @@
 }
 
 .sidebar-text {
-    margin-top:20px;
+    margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -95,7 +96,7 @@
     margin-top: 20px;
 }
 
-.another-bar{
+.another-bar {
     height: 50px;
     display: flex;
     align-items: center;
@@ -103,7 +104,7 @@
     margin-top: 20px;
 }
 
-.another-button{
+.another-button {
     height: 50px;
     align-items: center;
     justify-content: center;
@@ -212,6 +213,7 @@ a, a:hover, a:focus {
     font-size: 1.1em;
     display: block;
 }
+
 #sidebar ul li a:hover {
     color: #7386D5;
     background: #fff;
@@ -221,7 +223,6 @@ a, a:hover, a:focus {
     color: #fff;
     background: #6d7fcc;
 }
-
 
 a[data-toggle="collapse"] {
     position: relative;
@@ -242,7 +243,6 @@ a[aria-expanded="true"]::before {
     color: white;
     content: url('./../images/arrow_up.png');
 }
-
 
 ul ul a {
     font-size: 0.9em !important;
@@ -271,8 +271,6 @@ a.article, a.article:hover {
     background: #6d7fcc !important;
     color: #fff !important;
 }
-
-
 
 /* ---------------------------------------------------
     CONTENT STYLE
@@ -310,20 +308,20 @@ a.article, a.article:hover {
 #sidebarCollapse span:first-of-type {
     transform: rotate(45deg) translate(2px, 2px);
 }
+
 #sidebarCollapse span:nth-of-type(2) {
     opacity: 0;
 }
+
 #sidebarCollapse span:last-of-type {
     transform: rotate(-45deg) translate(1px, -1px);
 }
-
 
 #sidebarCollapse.active span {
     transform: none;
     opacity: 1;
     margin: 5px auto;
 }
-
 
 /* ---------------------------------------------------
     MEDIAQUERIES
@@ -333,10 +331,12 @@ a.article, a.article:hover {
         margin-left: -350px;
         transform: rotateY(90deg);
     }
+
     #sidebar.active {
         margin-left: 0;
         transform: none;
     }
+
     #sidebarCollapse span:first-of-type,
     #sidebarCollapse span:nth-of-type(2),
     #sidebarCollapse span:last-of-type {
@@ -344,17 +344,42 @@ a.article, a.article:hover {
         opacity: 1;
         margin: 5px auto;
     }
+
     #sidebarCollapse.active span {
         margin: 0 auto;
     }
+
     #sidebarCollapse.active span:first-of-type {
         transform: rotate(45deg) translate(2px, 2px);
     }
+
     #sidebarCollapse.active span:nth-of-type(2) {
         opacity: 0;
     }
+
     #sidebarCollapse.active span:last-of-type {
         transform: rotate(-45deg) translate(1px, -1px);
     }
 
+}
+
+.planner-place {
+    padding-left: 5px;
+    font-size: 20px;
+}
+
+.planner-route {
+    padding-left: 10px;
+}
+
+.planner-route img {
+    cursor: pointer;
+}
+
+.btn-group {
+    width: 100%;
+}
+
+.btn-group button {
+    width: 50%;
 }
