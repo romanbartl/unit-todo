@@ -6,8 +6,9 @@ from html.parser import HTMLParser
 import sys
 
 # database
-import pydbase as PyDBase
-db = PyDBase.DB()
+#import pydbase as PyDBase
+#db = PyDBase.DB()
+
 
 
 # read arguments
@@ -16,6 +17,7 @@ end = u''
 date = u''
 time = u''
 key = ''
+
 for n in range(1,len(sys.argv)-1, 2):
     if sys.argv[n] == '--from':
         start = sys.argv[n+1]
@@ -25,17 +27,17 @@ for n in range(1,len(sys.argv)-1, 2):
         date = sys.argv[n+1]
     elif sys.argv[n] == '--time':
         time = sys.argv[n+1]
-    else:
-        print("Usage: ./IDSJMK_parse.py --from <stop> --to <stop> --date <date dd.mm.yy> --time <time hh:mm>", file=sys.stderr)
-        exit()
+    #else:
+        #print("Usage: ./IDSJMK_parse.py --from <stop> --to <stop> --date <date dd.mm.yy> --time <time hh:mm>", file=sys.stderr)
+        #exit()
     
 
 
-# get HTML
-urlrequest = 'https://www.idsjmk.cz/spojeni.aspx?f='+ start + '&t=' + end + '&date=' + date + '&time=' + time
-result = requests.get(urlrequest)
-result.encoding = 'utf-8'
-html = result.text.replace("windows-1250", "utf-8")
+    # get HTML
+    urlrequest = 'https://www.idsjmk.cz/spojeni.aspx?f='+ start + '&t=' + end + '&date=' + date + '&time=' + time
+    result = requests.get(urlrequest)
+    result.encoding = 'utf-8'
+    html = result.text.replace("windows-1250", "utf-8")
 
 
 
@@ -128,14 +130,18 @@ for route in parser.lld:
         d['name'] = it['link']
     lld.append(ld)
 
+print(lld[0][0]['starttime'])
+print(lld[0][-1]['endtime'])
+
+
 
 
 # generate SQL
-for n in lld:
-    for d in n:
+#for n in lld:
+#    for d in n:
                                                                                                                              # MHD id # init ID    # name          # start          # starttime         # end          # endtime
-        insertion = "INSERT INTO `route` (`type_id`, `initial_id`, `name`, `start`, `starttime`, `end`, `endtime`) VALUES ("+str(1)+","+str(1)+",'"+d['name']+"','"+d['start']+"','"+d['starttime']+"','"+d['end']+"','"+d['endtime']+"');"
-        print(insertion)
+#        insertion = "INSERT INTO `route` (`type_id`, `initial_id`, `name`, `start`, `starttime`, `end`, `endtime`) VALUES ("+str(1)+","+str(1)+",'"+d['name']+"','"+d['start']+"','"+d['starttime']+"','"+d['end']+"','"+d['endtime']+"');"
+#        print(insertion)
 
 
 
