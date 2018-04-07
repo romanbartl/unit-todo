@@ -4,56 +4,58 @@ namespace App;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/** @ORM\entity */
+/**
+ * @ORM\Entity
+ */
 class Item {
 
     /**
      * @ORM\Id
-     * @ORM\column(type="integer")
-     * @ORM\generatedValue
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ORM\column(type="string")
+     * @ORM\Column(type="string")
      */
     private $name;
 
     /**
-     * @ORM\column(type="string")
+     * @ORM\Column(type="string")
      */
     private $description;
 
     /**
-     * @ORM\column(type="time", options={"default" : "00:00:00"})
+     * @ORM\Column(type="time", options={"default" : "00:00:00"})
      */
     private $opentime;
     /**
-     * @ORM\column(type="time", options={"default" : "24:00:00"})
+     * @ORM\Column(type="time", options={"default" : "24:00:00"})
      */
     private $closetime;
 
     /**
-     * @ORM\column(type="integer", options={"default" : 0})
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
     private $admission;
 
     /**
-     * @ORM\column(type="integer", nullable=true, options={"default" : NULL})
+     * @ORM\Column(type="integer", nullable=true, options={"default" : NULL})
      */
     private $capacity;
 
     /**
-     * @ORM\column(type="decimal", nullable=true, options={"default" : 0})
+     * @ORM\Column(type="decimal", nullable=true, options={"default" : 0})
      */
     private $lati;
     /**
-     * @ORM\column(type="decimal", nullable=true, options={"default" : 0})
+     * @ORM\Column(type="decimal", nullable=true, options={"default" : 0})
      */
     private $longi;
 
     /**
-     * @ORM\column(type="boolean", options={"default" : False})
+     * @ORM\Column(type="boolean", options={"default" : False})
      */
     private $event;
 
@@ -63,7 +65,7 @@ class Item {
     private $tags;
 
     /**
-     * @ORM\column(type="string", nullable=NULL, options={"default" : "casual"})
+     * @ORM\Column(type="string", nullable=NULL, options={"default" : "casual"})
      */
     private $dresscode;
 
@@ -73,7 +75,7 @@ class Item {
     private $location;
 
     /**
-     * @ORM\column(type="boolean", nullable=NULL, options={"default" : false})
+     * @ORM\Column(type="boolean", nullable=NULL, options={"default" : false})
      */
     private $outside;
 
@@ -109,18 +111,18 @@ class Item {
     // addTag
 }
 
-/** @ORM\entity */
+/** @ORM\Entity */
 class Tag
 {
     /**
      * @ORM\Id
-     * @ORM\column(type="integer")
-     * @ORM\generatedValue
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
 
     /**
-     * @ORM\column(type="string")
+     * @ORM\Column(type="string")
      */
     private $name;
 
