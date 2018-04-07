@@ -47,27 +47,33 @@ class BasePresenter extends \Nette\Application\UI\Presenter
 
     public function actionAccount()
     {
-        $user = $this->getUser();
+        if ($this->isAjax()) {
+            $user = $this->getUser();
 
-        if (!$user->isLoggedIn()) {
-            $this->redirect('Homepage:');
+            if (!$user->isLoggedIn()) {
+                $this->redirect('Homepage:');
+            }
         }
     }
 
 
     public function actionOut()
     {
-        $this->redrawControl('loginButton');
-        $this->redrawControl('fbSnippet');
+        if ($this->isAjax()) {
+            $this->redrawControl('loginButton');
+            $this->redrawControl('fbSnippet');
+        }
     }
 
     public function renderOut()
     {
-        $user = $this->getUser();
-        $user->logOut();
-        $this->redirect('Homepage:');
-        $this->redrawControl('loginButton');
-        $this->redrawControl('fbSnippet');
+        if ($this->isAjax()) {
+            $user = $this->getUser();
+            $user->logOut();
+            $this->redirect('Homepage:');
+            $this->redrawControl('loginButton');
+            $this->redrawControl('fbSnippet');
+        }
     }
 
     public function handleFacebookCookie()
@@ -181,6 +187,7 @@ class BasePresenter extends \Nette\Application\UI\Presenter
         if ($this->isAjax()) {
             $this->redrawControl('contentSnippet');
             $this->redrawControl('fbSnippet');
+            $this->redrawControl('loginButton');
         }
     }
 
@@ -195,7 +202,9 @@ class BasePresenter extends \Nette\Application\UI\Presenter
 
     public function renderAccount()
     {
-        $this->redrawControl('contentSnippet');
-        $this->redrawControl('fbSnippet');
+        if ($this->isAjax()) {
+            $this->redrawControl('contentSnippet');
+            $this->redrawControl('fbSnippet');
+        }
     }
 }
