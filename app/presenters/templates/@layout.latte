@@ -103,12 +103,21 @@
             return false; // aby se nepreslo na novou adresu
         });
     });
+
+    var places = [
+                {foreach $places as $place}
+            [{$place->getName()}, {$place->getLati()}, {$place->getLongi()}],
+                {/foreach}
+        ]
+    ;
 </script>
 {snippet fbSnippet}
     <script src="//connect.facebook.net/en_US/all.js"></script>
     <script>
         var preLocation;
         var infowindow = null;
+        var placesMarkers = [];
+        var placesMarkersSet = false;
         var mhdMarkers = [];
         var mhdInterval;
 
@@ -145,6 +154,26 @@
         var center = map.getCenter();
         google.maps.event.trigger(map, "resize");
         map.setCenter(center);
+    }
+
+    function placeMarkers() {
+        if (!placesMarkersSet) {
+            places.forEach(function (entry) {
+                myLatLng = {lat: parseFloat(entry[1]), lng: parseFloat(entry[2])};
+
+                marker = new google.maps.Marker({
+                    position: myLatLng
+                });
+
+                infowindow = new google.maps.InfoWindow();
+                makeInfoWindowEvent(map, infowindow, entry[0], marker);
+
+                marker.setMap(map);
+                placesMarkers.push(marker);
+            });
+
+            placesMarkersSet = true;
+        }
     }
 
     function makeInfoWindowEvent(map, infowindow, contentString, marker) {

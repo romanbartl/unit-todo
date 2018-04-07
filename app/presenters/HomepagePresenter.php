@@ -10,17 +10,12 @@ use Ivory\GoogleMap\Base\Coordinate;
 use Ivory\GoogleMap\Event\Event;
 use Ivory\GoogleMap\Overlay\InfoWindow;
 use Ivory\GoogleMap\Overlay\Marker;
-use Ivory\GoogleMap\Place\Autocomplete;
-use Ivory\GoogleMap\Helper\Builder\PlaceAutocompleteHelperBuilder;
 
 class HomepagePresenter extends BasePresenter
 {
     public function beforeRender()
     {
-
-        $autocomplete = new Autocomplete();
-
-        $places = $this->EntityManager->getRepository(Item::class)->findAll();
+        $this->template->places = $this->EntityManager->getRepository(Item::class)->findAll();
 
         $map = new Map();
 
@@ -33,13 +28,13 @@ class HomepagePresenter extends BasePresenter
         $map->setStylesheetOption('width', '100%');
         $map->setStylesheetOption('height', '100%');
 
-        foreach ($places as $place) {
+        /*foreach ($places as $place) {
             $marker = new Marker(new Coordinate($place->getLati(), $place->getLongi()));
             $infoWindow = new InfoWindow($place->getName());
             $infoWindow->setAutoClose(true);
             $marker->setInfoWindow($infoWindow);
             $map->getOverlayManager()->addMarker($marker);
-        }
+        }*/
 
         $dragend = new Event(
             $map->getVariable(),
@@ -74,8 +69,9 @@ class HomepagePresenter extends BasePresenter
                 ]
               }
             ];
-    map.setOptions({styles: stylers});
-    getBusMarkers();}'
+        map.setOptions({styles: stylers});
+        getBusMarkers();
+        placeMarkers();}'
         );
 
         $map->getEventManager()->addDomEvent($dragend);
@@ -83,7 +79,6 @@ class HomepagePresenter extends BasePresenter
         $map->getEventManager()->addDomEvent($zoom);
         $map->getEventManager()->addDomEvent($idle);
 
-        $autocompleteHelper = PlaceAutocompleteHelperBuilder::create()->build();
         $mapHelper = MapHelperBuilder::create()->build();
         $apiHelper = ApiHelperBuilder::create()
             ->setKey($this->context->parameters["google"]["apiKey"])
@@ -91,7 +86,6 @@ class HomepagePresenter extends BasePresenter
             ->build();
 
         $this->template->mapHelper = $mapHelper->render($map);
-        $this->template->autoComplete = $autocompleteHelper->render($autocomplete);
-        $this->template->mapApiHelper = $apiHelper->render([$autocomplete, $map]);
+        $this->template->mapApiHelper = $apiHelper->render([$map]);
     }
 }
