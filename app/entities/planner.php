@@ -62,7 +62,7 @@
             while($it != NULL)
             {
                 $l = array();
-                if($it->getItem() != NULL) $l[] = $it->getItem()
+                if($it->getItem() != NULL) { $l[] = $it->getItem(); }
                 $ret[] = $it->setItem;
                 $it = $it->getFollower();
             }
