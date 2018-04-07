@@ -5,12 +5,6 @@
     class Planner
     {
 
-        /**
-         * @inject
-         * @var \Kdyby\DOctrine\EntityManager
-         */
-        public $EntityManager;
-
         private function GetTravelType($s) {
             if($s === 'pěšky')
             {
@@ -70,12 +64,11 @@
         }
 
 
-        public function Filter()
+        public function Filter($em)
         {
-            $sql = "SELECT id FROM tag NATURAL JOIN item_tag WHERE name='cafe'";
+            $sql = "SELECT item_id FROM tag NATURAL JOIN item_tag WHERE name='finance'";
 
-            $em = $this->getDoctrine()->getManager();
-            $stmt = $this->EntityManager->getConnection()->prepare($sql);
+            $stmt = $em->getConnection()->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll();
         }

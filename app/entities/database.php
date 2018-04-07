@@ -5,7 +5,9 @@ namespace App;
 use Doctrine\ORM\Mapping as ORM;
 
 
-class Item {
+/** @ORM\Entity */
+class Item
+{
 
     /**
      * @ORM\Id
@@ -77,38 +79,155 @@ class Item {
      */
     private $outside;
 
-    public function getId() { return $this->id; }
-    public function getName() { return $this->name; }
-    public function getDescription() { return $this->description; }
-    public function getOpenTime() { return $this->opentime; }
-    public function getCloseTime() { return $this->closetime; }
-    public function getAdmission() { return $this->admission; }
-    public function getCapacity() { return $this->capacity; }
-    public function isEvent() { return $this->event; }
-    public function isPlace() { return ! $this->event; }
-    public function getDresscode() { return $this->dresscode; }
-    public function getLocation() { return $this->location; }
-    public function getLongi() { return $this->longi; }
-    public function getLati() { return $this->lati; }
-    public function getOutside() { return $this->outside; }
-    public function getInside() { return !$this->outside; }
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $tag;
 
-    public function setName($v) { $this->name = $v; }
-    public function setDescription($v) { $this->description = $v; }
-    public function setOpenTime($v) { $this->opentime = $v; }
-    public function setCloseTime($v) { $this->closetime = $v; }
-    public function setAdmission($v) { $this->admission = $v; }
-    public function setCapacity($v) { $this->capacity = $v; }
-    public function setDresscode($v) { $this->dresscode = $v; }
-    public function setLocation($v) { $this->location = $v; }
-    public function setLati($v) { $this->lati = $v; }
-    public function setLongi($v) { $this->longi = $v; }
-    public function setOutside($v = true) { $this->outside = $v; }
-    public function setInside($v = true) { $this->outside = !$v; }
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function getOpenTime()
+    {
+        return $this->opentime;
+    }
+
+    public function getCloseTime()
+    {
+        return $this->closetime;
+    }
+
+    public function getAdmission()
+    {
+        return $this->admission;
+    }
+
+    public function getCapacity()
+    {
+        return $this->capacity;
+    }
+
+    public function isEvent()
+    {
+        return $this->event;
+    }
+
+    public function isPlace()
+    {
+        return !$this->event;
+    }
+
+    public function getDresscode()
+    {
+        return $this->dresscode;
+    }
+
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    public function getLongi()
+    {
+        return $this->longi;
+    }
+
+    public function getLati()
+    {
+        return $this->lati;
+    }
+
+    public function getOutside()
+    {
+        return $this->outside;
+    }
+
+    public function getInside()
+    {
+        return !$this->outside;
+    }
+
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
+    public function setName($v)
+    {
+        $this->name = $v;
+    }
+
+    public function setDescription($v)
+    {
+        $this->description = $v;
+    }
+
+    public function setOpenTime($v)
+    {
+        $this->opentime = $v;
+    }
+
+    public function setCloseTime($v)
+    {
+        $this->closetime = $v;
+    }
+
+    public function setAdmission($v)
+    {
+        $this->admission = $v;
+    }
+
+    public function setCapacity($v)
+    {
+        $this->capacity = $v;
+    }
+
+    public function setDresscode($v)
+    {
+        $this->dresscode = $v;
+    }
+
+    public function setLocation($v)
+    {
+        $this->location = $v;
+    }
+
+    public function setLati($v)
+    {
+        $this->lati = $v;
+    }
+
+    public function setLongi($v)
+    {
+        $this->longi = $v;
+    }
+
+    public function setOutside($v = true)
+    {
+        $this->outside = $v;
+    }
+
+    public function setInside($v = true)
+    {
+        $this->outside = !$v;
+    }
 
     // addTag
 }
 
+/** @ORM\Entity */
 class Tag
 {
     /**
@@ -128,10 +247,20 @@ class Tag
      */
     private $tagged;
 
-    public function getId() { return $this->id; }
-    public function getName() { return $this->name; }
+    public function getId()
+    {
+        return $this->id;
+    }
 
-    public function setName($v) { $this->name = $v; }
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($v)
+    {
+        $this->name = $v;
+    }
 }
 
 
