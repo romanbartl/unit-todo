@@ -23,11 +23,25 @@
 .mojeButton {
     background-color: #444e7cff;
     border-color: #3e436a;
+    outline: none !important;
 }
 
 .mojeButton:hover {
     background-color: #3e436a;
     border-color: #3e436a;
+    outline: none !important;
+}
+
+.mojeButton:link {
+    background-color: #3e436a !important;
+    border-color: #3e436a !important;
+    outline: none !important;
+}
+
+.mojeButton:active {
+    background-color: #3e436a !important;
+    border-color: #3e436a !important;
+    outline: none !important;
 }
 
 .log-link {
