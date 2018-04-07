@@ -4,9 +4,7 @@ namespace App;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- */
+
 class Item {
 
     /**
@@ -111,7 +109,6 @@ class Item {
     // addTag
 }
 
-/** @ORM\Entity */
 class Tag
 {
     /**
