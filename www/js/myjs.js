@@ -37,3 +37,19 @@ function delAnotherBar() {
     }
 
 }
+
+$(document).ready(function(){
+    $('[data-toggle="restaurant"]').tooltip();
+});
+$(document).ready(function(){
+    $('[data-toggle="place"]').tooltip();
+});
+$(document).ready(function(){
+    $('[data-toggle="mhd"]').tooltip();
+});
+$(document).ready(function(){
+    $('[data-toggle="shop"]').tooltip();
+});
+$(document).ready(function(){
+    $('[data-toggle="hospital"]').tooltip();
+});
