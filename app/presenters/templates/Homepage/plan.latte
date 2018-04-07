@@ -31,8 +31,9 @@
                     {if !$iterator->last}
                         <div class="planner-route">
                             {$plan[3]|metersToReadable} ({$plan[4]|secondsToReadable} {$plan[5]})
-                            <img onclick="changeRoute({$index}, 'pesky')" src="{$basePath}/images/pesky.png"> <img
-                                    onclick="changeRoute({$index}, 'autem')" src="{$basePath}/images/autem.png">
+                            <img onclick="changeRoute({$index}, 'pesky')" src="{$basePath}/images/pesky.png">
+                            <img onclick="changeRoute({$index}, 'autem')" src="{$basePath}/images/autem.png">
+                            <a  n:href="changeRoute! $index, 'MHD'"><img src="{$basePath}/images/mhd.png"></a>
                         </div>
                     {/if}
                     {var $index = $index + 1}

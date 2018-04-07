@@ -220,36 +220,33 @@ class HomepagePresenter extends BasePresenter
     public function getTransportTime($type, $lati, $longi, $latiTo, $longiTo)
     {
         $data = [];
+        $request = new DirectionRequest(
+            new CoordinateLocation(new Coordinate($lati, $longi)),
+            new CoordinateLocation(new Coordinate($latiTo, $longiTo))
+        );
 
-        if ($type == "pěšky" or $type == "autem") {
-            $request = new DirectionRequest(
-                new CoordinateLocation(new Coordinate($lati, $longi)),
-                new CoordinateLocation(new Coordinate($latiTo, $longiTo))
-            );
+        if ($type == "pěšky") {
+            $request->setTravelMode(TravelMode::WALKING);
+        } elseif ($type == "autem") {
+            $request->setTravelMode(TravelMode::DRIVING);
+        } elseif ($type == "mhd") {
+            $request->setTravelMode(TravelMode::TRANSIT);
+        }
 
-            if ($type == "pěšky") {
-                $request->setTravelMode(TravelMode::WALKING);
-            } elseif ($type == "autem") {
-                $request->setTravelMode(TravelMode::DRIVING);
+        $request->setRegion('cs');
+        $request->setLanguage('cs');
+
+        $direction = new DirectionService(
+            new Client(),
+            new GuzzleMessageFactory()
+        );
+
+        $response = $direction->route($request);
+        foreach ($response->getRoutes() as $route) {
+            foreach ($route->getLegs() as $leg) {
+                $data[] = $leg->getDistance()->getValue();
+                $data[] = $leg->getDuration()->getValue();
             }
-
-            $request->setRegion('cs');
-            $request->setLanguage('cs');
-
-            $direction = new DirectionService(
-                new Client(),
-                new GuzzleMessageFactory()
-            );
-
-            $response = $direction->route($request);
-            foreach ($response->getRoutes() as $route) {
-                foreach ($route->getLegs() as $leg) {
-                    $data[] = $leg->getDistance()->getValue();
-                    $data[] = $leg->getDuration()->getValue();
-                }
-            }
-        } elseif ($type == "MHD") {
-            exec("../apis/")
         }
 
         return $data;
