@@ -53,7 +53,7 @@ class UserFactory
         $user = $this->findUserByEmail($email);
 
         if ($user) {
-            return false;
+            throw new UserException("Uživatel z daným emailem už je již registrován");
         }
 
         $newUser = new User();
