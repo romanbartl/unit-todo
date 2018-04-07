@@ -38,11 +38,30 @@ class BasePresenter extends \Nette\Application\UI\Presenter
         $this->isLogged();
     }
 
+
+    public function actionAccount()
+    {
+        $user = $this->getUser();
+
+        if (!$user->isLoggedIn()) {
+            $this->redirect('Homepage:');
+        }
+    }
+
+
     public function actionOut()
+    {
+        $this->redrawControl('loginButton');
+        $this->redrawControl('fbSnippet');
+    }
+
+    public function renderOut()
     {
         $user = $this->getUser();
         $user->logOut();
         $this->redirect('Homepage:');
+        $this->redrawControl('loginButton');
+        $this->redrawControl('fbSnippet');
     }
 
     public function handleFacebookCookie()
@@ -55,6 +74,7 @@ class BasePresenter extends \Nette\Application\UI\Presenter
                 if ($this->UserFactory->loginByFacebook($data['email'], $data['id'], $token)) {
                     $user = $this->getUser();
                     $user->login($data['email'], NULL);
+                    $this->redrawControl('loginButton');
                 }
 
             } catch (FacebookLoginException | AuthenticationException $e) {
@@ -126,6 +146,7 @@ class BasePresenter extends \Nette\Application\UI\Presenter
             }
 
             $this->redrawControl('contentSnippet');
+            $this->redrawControl('fbSnippet');
         }
     }
 
@@ -137,6 +158,7 @@ class BasePresenter extends \Nette\Application\UI\Presenter
             }
 
             $this->redrawControl('contentSnippet');
+            $this->redrawControl('fbSnippet');
         }
     }
 
@@ -144,6 +166,7 @@ class BasePresenter extends \Nette\Application\UI\Presenter
     {
         if ($this->isAjax()) {
             $this->redrawControl('contentSnippet');
+            $this->redrawControl('fbSnippet');
         }
     }
 
@@ -151,13 +174,22 @@ class BasePresenter extends \Nette\Application\UI\Presenter
     {
         if ($this->isAjax()) {
             $this->redrawControl('contentSnippet');
-        }
+            $this->redrawControl('fbSnippet');
+            }
     }
 
     public function renderMybag()
     {
         if ($this->isAjax()) {
             $this->redrawControl('contentSnippet');
+            $this->redrawControl('fbSnippet');
+
         }
+    }
+
+    public function renderAccount()
+    {
+        $this->redrawControl('contentSnippet');
+        $this->redrawControl('fbSnippet');
     }
 }

@@ -32,13 +32,15 @@
         <div class="form-inline navbar-right">
             <a n:href="Homepage:"><span class="header-button"></span><i
                         class="fas fa-home my-margin-right-long header-button"></i></a>
-            {if ($user->isLoggedIn())}
-            <a n:href="Homepage:account"><span class="header-button"></span><i
-                        class="fas fa-user-circle my-margin-right header-button"></i></a>
-            {else}
-            <a n:href="Homepage:login"><span class="header-button"></span><i
-                        class="fas fa-user-circle my-margin-right header-button"></i></a>
-            {/if}
+            {snippet loginButton}
+                {if ($user->isLoggedIn())}
+                    <a n:href="Homepage:account" class="ajax" onclick="toAccount()"><span class="header-button"></span><i
+                                class="fas fa-user-circle my-margin-right header-button"></i></a>
+                {else}
+                    <a n:href="Homepage:login" class="ajax" onclick="toLogin2()"><span class="header-button"></span><i
+                                class="fas fa-user-circle my-margin-right header-button"></i></a>
+                {/if}
+            {/snippet}
         </div>
     </div>
 </nav>
@@ -101,9 +103,9 @@
         });
     });
 </script>
-
+{snippet fbSnippet}
 <script src="//connect.facebook.net/en_US/all.js"></script>
-<script n:syntax="off">
+<script>
     var preLocation;
     var infowindow = null;
     var mhdMarkers = [];
@@ -117,7 +119,10 @@
         channelUrl: 'https://unitbrno.psopf.cz/',
         oauth: true
     });
+</script>
+{/snippet}
 
+<script n:syntax="off">
     function savePreLocation() {
         preLocation = map.getCenter();
     }
