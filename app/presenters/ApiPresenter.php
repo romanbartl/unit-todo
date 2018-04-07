@@ -10,21 +10,9 @@ class ApiPresenter extends \Nette\Application\UI\Presenter
         die(1);
     }
 
-    public function actionMhdBus()
+    public function actionMhd()
     {
-        $json = file_get_contents("http://sotoris.cz/DataSource/CityHack2015/vehiclesBrno.aspx?traction=bus");
-        echo $json;
-    }
-
-    public function actionMhdTBus()
-    {
-        $json = file_get_contents("http://sotoris.cz/DataSource/CityHack2015/vehiclesBrno.aspx?traction=tbus");
-        echo $json;
-    }
-
-    public function actionMhdTram()
-    {
-        $json = file_get_contents("http://sotoris.cz/DataSource/CityHack2015/vehiclesBrno.aspx?traction=tram");
+        $json = file_get_contents("http://sotoris.cz/DataSource/CityHack2015/vehiclesBrno.aspx");
         echo $json;
     }
 }

@@ -101,12 +101,8 @@
 <script n:syntax="off">
     var preLocation;
     var infowindow = null;
-    var busMarkers = [];
-    var busInterval;
-    var tbusMarkers = [];
-    var tbusInterval;
-    var tramMarkers = [];
-    var tramInterval;
+    var mhdMarkers = [];
+    var mhdInterval;
 
     FB.init({
         appId: '356707758145198',
@@ -152,70 +148,41 @@
     }
 
     function getBusMarkers() {
-        if (typeof busInterval != "number") {
-            getMhdMarkers("bus");
-            busInterval = setInterval(function () {
-                getMhdMarkers("bus");
-            }, 5000);
-        }
-
-        if (typeof tbusInterval != "number") {
-            getMhdMarkers("tbus");
-            tbusInterval = setInterval(function () {
-                getMhdMarkers("tbus");
-            }, 5000);
-        }
-
-        if (typeof tramInterval != "number") {
-            getMhdMarkers("tram");
-            tramInterval = setInterval(function () {
-                getMhdMarkers("tram");
+        if (typeof mhdInterval != "number") {
+            getMhdMarkers();
+            mhdInterval = setInterval(function () {
+                getMhdMarkers();
             }, 5000);
         }
     }
 
-    function getMhdMarkers(type) {
-        if (type === "bus") {
-            url = "bus";
-            markers = busMarkers;
-        }
-        else if (type === "tbus") {
-            url = "tbus";
-            mhdName = "Trolejbus";
-            markers = tbusMarkers;
-        }
-        else if (type === "tram") {
-            url = "tram";
-            mhdName = "Tramvaj";
-            markers = tramMarkers;
-        }
-
+    function getMhdMarkers() {
         jQuery.ajax({
-            url: "https://unitbrno.psopf.cz/Api/mhd" + url,
+            url: "https://unitbrno.psopf.cz/Api/mhd",
             type: "GET",
 
             contentType: 'application/json; charset=utf-8',
             success: function (resultData) {
-                markers.forEach(function (marker) {
+                mhdMarkers.forEach(function (marker) {
                     marker.setMap(null);
                 });
 
-                markers = [];
+                mhdMarkers = [];
 
                 data = jQuery.parseJSON(resultData);
 
                 data.forEach(function (entry) {
-                    if (type === "bus") {
-                        mhdName = "Bus";
-                        image = "bus";
+                    if (entry.route >= 1 && entry.route <= 20) {
+                        mhdName = "Tramvaj";
+                        image = "train";
                     }
-                    else if (type === "tbus") {
+                    else if (entry.route >= 20 && entry.route <= 39) {
                         mhdName = "Trolejbus";
                         image = "bus";
                     }
-                    else if (type === "tram") {
-                        mhdName = "Tramvaj";
-                        image = "train";
+                    else {
+                        mhdName = "Bus";
+                        image = "bus";
                     }
 
                     myLatLng = {lat: entry.latitude, lng: entry.longitude};
@@ -229,15 +196,7 @@
                     makeInfoWindowEvent(map, infowindow, "<strong>" + mhdName + " č. " + entry.route + "</strong><br>" + entry.headsign, marker);
 
                     marker.setMap(map);
-                    if (type === "bus") {
-                        busMarkers.push(marker);
-                    }
-                    else if (type === "tbus") {
-                        tbusMarkers.push(marker);
-                    }
-                    else {
-                        tramMarkers.push(marker);
-                    }
+                    mhdMarkers.push(marker);
                 });
             },
             error: function (jqXHR, textStatus, errorThrown) {
