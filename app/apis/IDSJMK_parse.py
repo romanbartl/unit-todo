@@ -130,8 +130,13 @@ for route in parser.lld:
         d['name'] = it['link']
     lld.append(ld)
 
-print(lld[0][0]['starttime'])
-print(lld[0][-1]['endtime'])
+def get_min(time_str):
+    h, m = time_str.split(':')
+    return int(h) * 60 + int(m)
+
+print(get_min(lld[0][-1]['endtime']) - get_min(lld[0][0]['starttime']))
+
+
 
 
 
