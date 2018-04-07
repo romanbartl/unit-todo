@@ -44,6 +44,7 @@
         {snippet contentSnippet}
             {include content}
         {/snippet}
+
     </nav>
 
 
@@ -69,9 +70,6 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-
-<script src="{$basePath}/js/myURL.js"></script>
-
 <script src="{$basePath}/js/nette.ajax.js"></script>
 <script src="{$basePath}/js/myjs.js"></script>
 <script src="{$basePath}/js/myURL.js"></script>
@@ -79,9 +77,6 @@
     $(function () {
         $.nette.init();
     });
-
-    $.nette.ajax(payload.redirect);
-
 </script>
 <script>
     function fbAfterLogin() {
@@ -92,9 +87,26 @@
 
 </script>
 
-<script src="//connect.facebook.net/en_US/all.js"></script>
 <script>
+    $(function () {
+
+        $('a.ajax').live('click', function () {
+            $.get(this.href);
+            return false; // aby se nepreslo na novou adresu
+        });
+    });
+</script>
+
+<script src="//connect.facebook.net/en_US/all.js"></script>
+<script n:syntax="off">
     var preLocation;
+    var infowindow = null;
+    var busMarkers = [];
+    var busInterval;
+    var tbusMarkers = [];
+    var tbusInterval;
+    var tramMarkers = [];
+    var tramInterval;
 
     FB.init({
         appId: '356707758145198',
@@ -126,6 +138,113 @@
         var center = map.getCenter();
         google.maps.event.trigger(map, "resize");
         map.setCenter(center);
+    }
+
+    function makeInfoWindowEvent(map, infowindow, contentString, marker) {
+        google.maps.event.addListener(map, "click", function (event) {
+            infowindow.close();
+        });
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent(contentString);
+            infowindow.open(map, marker);
+        });
+    }
+
+    function getBusMarkers() {
+        if (typeof busInterval != "number") {
+            getMhdMarkers("bus");
+            busInterval = setInterval(function () {
+                getMhdMarkers("bus");
+            }, 5000);
+        }
+
+        if (typeof tbusInterval != "number") {
+            getMhdMarkers("tbus");
+            tbusInterval = setInterval(function () {
+                getMhdMarkers("tbus");
+            }, 5000);
+        }
+
+        if (typeof tramInterval != "number") {
+            getMhdMarkers("tram");
+            tramInterval = setInterval(function () {
+                getMhdMarkers("tram");
+            }, 5000);
+        }
+    }
+
+    function getMhdMarkers(type) {
+        if (type === "bus") {
+            url = "bus";
+            markers = busMarkers;
+        }
+        else if (type === "tbus") {
+            url = "tbus";
+            mhdName = "Trolejbus";
+            markers = tbusMarkers;
+        }
+        else if (type === "tram") {
+            url = "tram";
+            mhdName = "Tramvaj";
+            markers = tramMarkers;
+        }
+
+        jQuery.ajax({
+            url: "https://unitbrno.psopf.cz/Api/mhd" + url,
+            type: "GET",
+
+            contentType: 'application/json; charset=utf-8',
+            success: function (resultData) {
+                markers.forEach(function (marker) {
+                    marker.setMap(null);
+                });
+
+                markers = [];
+
+                data = jQuery.parseJSON(resultData);
+
+                data.forEach(function (entry) {
+                    if (type === "bus") {
+                        mhdName = "Bus";
+                        image = "bus";
+                    }
+                    else if (type === "tbus") {
+                        mhdName = "Trolejbus";
+                        image = "bus";
+                    }
+                    else if (type === "tram") {
+                        mhdName = "Tramvaj";
+                        image = "train";
+                    }
+
+                    myLatLng = {lat: entry.latitude, lng: entry.longitude};
+
+                    marker = new google.maps.Marker({
+                        position: myLatLng,
+                        icon: "https://unitbrno.psopf.cz/images/" + image + ".png"
+                    });
+
+                    infowindow = new google.maps.InfoWindow();
+                    makeInfoWindowEvent(map, infowindow, "<strong>" + mhdName + " č. " + entry.route + "</strong><br>" + entry.headsign, marker);
+
+                    marker.setMap(map);
+                    if (type === "bus") {
+                        busMarkers.push(marker);
+                    }
+                    else if (type === "tbus") {
+                        tbusMarkers.push(marker);
+                    }
+                    else {
+                        tramMarkers.push(marker);
+                    }
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+            },
+
+            timeout: 1000,
+        });
     }
 </script>
 
