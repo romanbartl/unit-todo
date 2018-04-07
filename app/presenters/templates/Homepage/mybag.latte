@@ -31,8 +31,17 @@
     </li>
 </ul>
 {else}
-    <div>
-        <a n:href="Homepage:login" class="ajax" onclick="toLogin2()">Pro zobrazení je potřeba se příhlásit</a>
+    <ul class="components">
+
+    <div class="search-bar custom-text">
+        <p>Zde si můžete procházet<br>a organizovat svá oblíbená<br>místa a adresy.<br>Začněte klidnutím na tlačítko 'Přihlásit'</p>
+    </div>
+
+
+    <div class="ultra-padding">
+        <div>
+            <a n:href="Homepage:login" class="ajax btn btn-primary btn-block mojeButton" onclick="toLogin2()">Přihlásit</a>
+        </div>
     </div>
 {/if}
 {/snippet}
