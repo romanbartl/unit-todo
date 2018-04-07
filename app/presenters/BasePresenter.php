@@ -19,6 +19,12 @@ class BasePresenter extends \Nette\Application\UI\Presenter
     /** @var UserFactory @inject */
     public $UserFactory;
 
+    /**
+     * @inject
+     * @var \Kdyby\Doctrine\EntityManager
+     */
+    public $EntityManager;
+
     public function isLogged()
     {
         $user = $this->getUser();
@@ -175,7 +181,7 @@ class BasePresenter extends \Nette\Application\UI\Presenter
         if ($this->isAjax()) {
             $this->redrawControl('contentSnippet');
             $this->redrawControl('fbSnippet');
-            }
+        }
     }
 
     public function renderMybag()
