@@ -27,3 +27,7 @@ function toLogin2() {
     url = url.substring(0, url.indexOf(''));
     window.history.replaceState('', '', url + '/homepage/login');
 }
+
+function goHome() {
+    window.history.replaceState('', '', 'https://unitbrno.psopf.cz');
+}
