@@ -7,17 +7,19 @@ class DB:
     def __init__(self):
         # Open database connection
         self.db = mysql.connect(host="localhost", user="unit", passwd="unitbrno", db="unit")
+        self.db.set_character_set('utf8')
         self.cursor = self.db.cursor()
+        self.cursor.execute('SET NAMES utf8;')
+        self.cursor.execute('SET CHARACTER SET utf8;')
+        self.cursor.execute('SET character_set_connection=utf8;')
     
     def execute(self, command):
         try:
                 self.cursor.execute(command)
                 self.db.commit()
         except Exception as e:
-                print("Error: " + str(e))
                 self.db.rollback()
         else:
-                print('Success!')
                 result = self.cursor.fetchall()
                 return result
 
