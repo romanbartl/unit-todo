@@ -8,7 +8,8 @@
 
 <div class="list-unstyled">
 
-
+{snippet myBagSnippet}
+{if ($user->isLoggedIn())}
 <ul class="components">
     <li class="active">
         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">My Trips - 3</a>
@@ -29,5 +30,11 @@
         <a href="#">Na kebab</a>
     </li>
 </ul>
+{else}
+    <div>
+        <a n:href="Homepage:login" class="ajax" onclick="toLogin2()">Pro zobrazení je potřeba se příhlásit</a>
+    </div>
+{/if}
+{/snippet}
 
 </div>
