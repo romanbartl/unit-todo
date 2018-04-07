@@ -64,64 +64,71 @@ var place = true;
 var bus = true;
 var tram = true;
 function restaurantClicked() {
+
+
     $('[data-toggle="restaurant"]').tooltip("hide");
     if (restaurant){
         document.getElementById('restaurant').style.backgroundColor = '#7386D5';
         restaurant = false;
-        //TODO restaurant is NOT checked in!
+        restaurantEnabled = false;
     } else {
         document.getElementById('restaurant').style.backgroundColor = '#6575b8';
         restaurant = true;
-        //TODO restaurant is checked in!
+        restaurantEnabled = true;
     }
+    changeMarkersState();
 }
 function mhdClicked() {
     $('[data-toggle="mhd"]').tooltip("hide");
     if (mhd){
         document.getElementById('mhd').style.backgroundColor = '#7386D5';
         mhd = false;
-        //TODO mhd is NOT checked in ... MHD IN REAL TIME!
+        mhdEnabled = false;
     } else {
         document.getElementById('mhd').style.backgroundColor = '#6575b8';
         mhd = true;
-        //TODO mhd is checked in ... MHD IN REAL TIME!
+        mhdEnabled = true;
     }
+    changeMhdState();
 }
 function placeClicked() {
     $('[data-toggle="place"]').tooltip("hide");
     if (place){
         document.getElementById('place').style.backgroundColor = '#7386D5';
         place = false;
-        //TODO place is NOT checked in!
+        interestingEnabled = false;
     } else {
         document.getElementById('place').style.backgroundColor = '#6575b8';
         place = true;
-        //TODO place is checked in!
+        interestingEnabled = true;
     }
+    changeMarkersState();
 }
 function funClicked() {
     $('[data-toggle="fun"]').tooltip("hide");
     if (fun){
         document.getElementById('fun').style.backgroundColor = '#7386D5';
         fun = false;
-        //TODO fun is NOT checked in!
+        funEnabled = false;
     } else {
         document.getElementById('fun').style.backgroundColor = '#6575b8';
         fun = true;
-        //TODO fun is checked in!
+        funEnabled = true;
     }
+    changeMarkersState();
 }
 function shopClicked() {
     $('[data-toggle="shop"]').tooltip("hide");
     if (shop){
         document.getElementById('shop').style.backgroundColor = '#7386D5';
         shop = false;
-        //TODO shop is NOT checked in!
+        shopEnabled = false;
     } else {
         document.getElementById('shop').style.backgroundColor = '#6575b8';
         shop = true;
-        //TODO shop is checked in!
+        shopEnabled = true;
     }
+    changeMarkersState();
 }
 
 
