@@ -10,10 +10,6 @@
 }
 
 .my-margin-right {
-    margin-right: 60px !important;
-}
-
-.my-margin-right-long {
     margin-right: 100px !important;
 }
 
@@ -27,6 +23,9 @@
 
 }
 
+.navbar-dark .navbar-brand:hover {
+    color: #6575b8;
+}
 .map-filters-button {
     float: left;
     padding: 20px 20px 20px 20px;
