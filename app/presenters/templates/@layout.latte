@@ -34,7 +34,8 @@
                         class="fas fa-home my-margin-right-long header-button"></i></a>
             {snippet loginButton}
                 {if ($user->isLoggedIn())}
-                    <a n:href="Homepage:account" class="ajax" onclick="toAccount()"><span class="header-button"></span><i
+                    <a n:href="Homepage:account" class="ajax" onclick="toAccount()"><span
+                                class="header-button"></span><i
                                 class="fas fa-user-circle my-margin-right header-button"></i></a>
                 {else}
                     <a n:href="Homepage:login" class="ajax" onclick="toLogin2()"><span class="header-button"></span><i
@@ -102,24 +103,33 @@
             return false; // aby se nepreslo na novou adresu
         });
     });
+
+    var places = [
+                {foreach $places as $place}
+            [{$place->getName()}, {$place->getLati()}, {$place->getLongi()}],
+                {/foreach}
+        ]
+    ;
 </script>
 {snippet fbSnippet}
-<script src="//connect.facebook.net/en_US/all.js"></script>
-<script>
-    var preLocation;
-    var infowindow = null;
-    var mhdMarkers = [];
-    var mhdInterval;
+    <script src="//connect.facebook.net/en_US/all.js"></script>
+    <script>
+        var preLocation;
+        var infowindow = null;
+        var placesMarkers = [];
+        var placesMarkersSet = false;
+        var mhdMarkers = [];
+        var mhdInterval;
 
-    FB.init({
-        appId: '356707758145198',
-        status: true,
-        cookie: true,
-        xfbml: true,
-        channelUrl: 'https://unitbrno.psopf.cz/',
-        oauth: true
-    });
-</script>
+        FB.init({
+            appId: '356707758145198',
+            status: true,
+            cookie: true,
+            xfbml: true,
+            channelUrl: 'https://unitbrno.psopf.cz/',
+            oauth: true
+        });
+    </script>
 {/snippet}
 
 <script n:syntax="off">
@@ -144,6 +154,26 @@
         var center = map.getCenter();
         google.maps.event.trigger(map, "resize");
         map.setCenter(center);
+    }
+
+    function placeMarkers() {
+        if (!placesMarkersSet) {
+            places.forEach(function (entry) {
+                myLatLng = {lat: parseFloat(entry[1]), lng: parseFloat(entry[2])};
+
+                marker = new google.maps.Marker({
+                    position: myLatLng
+                });
+
+                infowindow = new google.maps.InfoWindow();
+                makeInfoWindowEvent(map, infowindow, entry[0], marker);
+
+                marker.setMap(map);
+                placesMarkers.push(marker);
+            });
+
+            placesMarkersSet = true;
+        }
     }
 
     function makeInfoWindowEvent(map, infowindow, contentString, marker) {
