@@ -248,6 +248,8 @@ class HomepagePresenter extends BasePresenter
                     $data[] = $leg->getDuration()->getValue();
                 }
             }
+        } elseif ($type == "MHD") {
+            exec("../apis/")
         }
 
         return $data;
