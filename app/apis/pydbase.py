@@ -10,8 +10,27 @@ class DB:
         self.cursor = self.db.cursor()
     
     def execute(self, command):
+        try:
+                self.cursor.execute(command)
+                self.db.commit()
+        except Exception as e:
+                print("Error: " + str(e))
+                self.db.rollback()
+        else:
+                print('Success!')
+                result = self.cursor.fetchall()
+                return result
+
+    def select(self, command):
         self.cursor.execute(command)
-        return cursor.fetchall()
+        
+        row = self.cursor.fetchone()
+        l = []
+        while row is not None:
+            l.append(row[0])
+            row = self.cursor.fetchone()
+        return l
+
 
     def __exit__(self, exc_type, exc_value, traceback):
         # disconnect from server

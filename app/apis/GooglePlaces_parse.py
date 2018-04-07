@@ -26,7 +26,7 @@ while True:
     root = ET.fromstring(file.read())
     # check
     if root[0].text != 'OK':
-        print("Corrupted XML!", file=sys.stderr)
+        print("Corrupted XML: " + root[0].text, file=sys.stderr)
         exit()
 
 
@@ -38,7 +38,7 @@ while True:
 
         for param in result:
             if param.tag == 'name':
-               d['name'] = param.text
+               d['name'] = param.text.replace("\'", "\\'")
             elif param.tag == 'type':
                 d['tags'].add(param.text)
             elif param.tag == 'geometry':
@@ -57,8 +57,23 @@ while True:
     for n in l:
         #print(n)
     
-        insertion = "INSERT INTO `item` (`name`, `description`, `lati`, `longi`) VALUES ('"+n['name']+"','',"+n['latitude']+","+n['longitude']+");"
+        insertion = "INSERT INTO `item` (`name`, `description`, `lati`, `longi`) VALUES ('"+n['name']+"','',"+n['latitude']+","+n['longitude']+")"
         db.execute(insertion)
+        #print(insertion)
+        genItemID = "SELECT id FROM item WHERE lati="+n['latitude']+' AND longi='+n['longitude']
+        print(genItemID)
+        itemID = db.select(genItemID)
+        print(itemID)
+
+        for t in d['tags']:
+            genTagID = "SELECT `id` FROM `tag` WHERE `name`='"+t+"';"
+            print(genTagID)
+            tagID = db.select(genTagID)
+            print(tagID)
+            if (len(itemID) > 0) and (len(tagID) > 0): 
+                genTagAssignment = "INSERT INTO `item_tag` (`item_id`, `tag_id`) VALUES ("+str(itemID[0])+","+str(tagID[0])+");"
+                db.execute(genTagAssignment)
+
     break
     #rq = 'https://maps.googleapis.com/maps/api/place/textsearch/xml?pagetoken='+root[-1].text+'&key=AIzaSyDfotL66FGoibMafL-c8oNk8joyFtpcc6U'
 
