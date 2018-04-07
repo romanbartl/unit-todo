@@ -249,8 +249,8 @@
         });
     }
 
-    function getBusMarkers() {
-        if (typeof mhdInterval != "number" && mhdEnabled) {
+    function getBusMarkers(force = false) {
+        if ((typeof mhdInterval != "number" && mhdEnabled) || force) {
             getMhdMarkers();
             mhdInterval = setInterval(function () {
                 getMhdMarkers();
@@ -319,7 +319,7 @@
             });
         }
         else {
-            getBusMarkers();
+            getBusMarkers(true);
         }
     }
 
