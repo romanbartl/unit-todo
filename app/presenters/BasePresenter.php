@@ -187,6 +187,7 @@ class BasePresenter extends \Nette\Application\UI\Presenter
         if ($this->isAjax()) {
             $this->redrawControl('contentSnippet');
             $this->redrawControl('fbSnippet');
+            $this->redrawControl('loginButton');
         }
     }
 
